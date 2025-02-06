@@ -5,6 +5,20 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>My Personal Profile</title>
     <style>
+        @keyframes earthquake {
+            0% { transform: translate(1px, 1px) rotate(0deg); }
+            10% { transform: translate(-1px, -2px) rotate(-1deg); }
+            20% { transform: translate(-3px, 0px) rotate(1deg); }
+            30% { transform: translate(3px, 2px) rotate(0deg); }
+            40% { transform: translate(1px, -1px) rotate(1deg); }
+            50% { transform: translate(-1px, 2px) rotate(-1deg); }
+            60% { transform: translate(-3px, 1px) rotate(0deg); }
+            70% { transform: translate(3px, 1px) rotate(-1deg); }
+            80% { transform: translate(-1px, -1px) rotate(1deg); }
+            90% { transform: translate(1px, 2px) rotate(0deg); }
+            100% { transform: translate(1px, -2px) rotate(-1deg); }
+        }
+
         body {
             font-family: Arial, sans-serif;
             margin: 0;
@@ -22,6 +36,7 @@
             width: 350px;
             text-align: center;
             padding: 20px;
+            animation: earthquake 0.5s ease-in-out;
         }
         .card img {
             width: 150px;
@@ -82,7 +97,7 @@
 <body>
     <div class="card">
         <img src="219983.png" alt="Your Photo">
-        <h1>S.B</h1>
+        <h1>SharanSwarn</h1>
         <p>Brief description about yourself. You can mention your profession, hobbies, or interests.</p>
         <a href="https://github.com/swarndeepbains91" target="_blank">View My GitHub</a>
         
