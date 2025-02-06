@@ -93,6 +93,16 @@
             background: #218838;
         }
     </style>
+     <script>
+        // Disable right-click and inspect options
+        document.addEventListener('contextmenu', (e) => e.preventDefault()); // Disable right-click
+        document.addEventListener('keydown', (e) => {
+            // Disable F12 and Ctrl+Shift+I
+            if (e.key === 'F12' || (e.ctrlKey && e.shiftKey && e.key === 'I')) {
+                e.preventDefault();
+            }
+        });
+    </script>
 </head>
 <body>
     <div class="card">
