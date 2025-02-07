@@ -3,128 +3,66 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My Personal Profile</title>
+    <title>Multi-Page Website</title>
     <style>
-        @keyframes earthquake {
-            0% { transform: translate(1px, 1px) rotate(0deg); }
-            10% { transform: translate(-1px, -2px) rotate(-1deg); }
-            20% { transform: translate(-3px, 0px) rotate(1deg); }
-            30% { transform: translate(3px, 2px) rotate(0deg); }
-            40% { transform: translate(1px, -1px) rotate(1deg); }
-            50% { transform: translate(-1px, 2px) rotate(-1deg); }
-            60% { transform: translate(-3px, 1px) rotate(0deg); }
-            70% { transform: translate(3px, 1px) rotate(-1deg); }
-            80% { transform: translate(-1px, -1px) rotate(1deg); }
-            90% { transform: translate(1px, 2px) rotate(0deg); }
-            100% { transform: translate(1px, -2px) rotate(-1deg); }
-        }
-
         body {
             font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
             margin: 0;
             padding: 0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            background-color: #f4f4f9;
         }
-        .card {
-            background: #fff;
-            border-radius: 10px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            width: 350px;
-            text-align: center;
-            padding: 20px;
-            animation: earthquake 0.5s ease-in-out;
+        .navbar {
+            background-color: #333;
+            overflow: hidden;
         }
-        .card img {
-            width: 150px;
-            height: 150px;
-            border-radius: 50%;
-            object-fit: cover;
-            margin-bottom: 20px;
-        }
-        .card h1 {
-            font-size: 24px;
-            margin: 10px 0;
-        }
-        .card p {
-            color: #555;
-            margin: 10px 0;
-        }
-        .card a {
-            text-decoration: none;
-            color: white;
-            background: #007bff;
-            padding: 10px 20px;
-            border-radius: 5px;
-            display: inline-block;
-            margin-top: 15px;
-        }
-        .card a:hover {
-            background: #0056b3;
-        }
-        .email-form {
-            margin-top: 20px;
-            text-align: left;
-        }
-        .email-form label {
+        .navbar a {
+            float: left;
             display: block;
-            margin-bottom: 5px;
-            font-weight: bold;
-        }
-        .email-form input, .email-form textarea {
-            width: 100%;
-            padding: 10px;
-            margin-bottom: 10px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-        }
-        .email-form button {
-            background: #28a745;
             color: white;
-            border: none;
-            padding: 10px 15px;
-            border-radius: 5px;
-            cursor: pointer;
+            text-align: center;
+            padding: 14px 20px;
+            text-decoration: none;
         }
-        .email-form button:hover {
-            background: #218838;
+        .navbar a:hover {
+            background-color: #ddd;
+            color: black;
+        }
+        .content {
+            padding: 20px;
+        }
+        .hidden {
+            display: none;
         }
     </style>
-     <script>
-        // Disable right-click and inspect options
-        document.addEventListener('contextmenu', (e) => e.preventDefault()); // Disable right-click
-        document.addEventListener('keydown', (e) => {
-            // Disable F12 and Ctrl+Shift+I
-            if (e.key === 'F12' || (e.ctrlKey && e.shiftKey && e.key === 'I')) {
-                e.preventDefault();
-            }
-        });
-    </script>
 </head>
 <body>
-    <div class="card">
-        <img src="219983.png" alt="Your Photo">
-        <h1>SharanSwarn</h1>
-        <p>Brief description about yourself. You can mention your profession, hobbies, or interests.</p>
-        <a href="https://github.com/swarndeepbains91" target="_blank">View My GitHub</a>
-        
-        <form class="email-form" action="mailto:your-email@example.com" method="POST" enctype="text/plain">
-            <label for="name">Your Name:</label>
-            <input type="text" id="name" name="name" placeholder="Enter your name" required>
-
-            <label for="email">Your Email:</label>
-            <input type="email" id="email" name="email" placeholder="Enter your email" required>
-
-            <label for="message">Message:</label>
-            <textarea id="message" name="message" rows="4" placeholder="Enter your message" required></textarea>
-
-            <button type="submit">Send Email</button>
-        </form>
+    <div class="navbar">
+        <a href="#" onclick="showPage('home')">Home</a>
+        <a href="#" onclick="showPage('page2')">Page 2</a>
+        <a href="#" onclick="showPage('page3')">Page 3</a>
     </div>
-<a href="Usersinfo.html" class="button">Go to New Page</a>
-<a href="Resume.html" class="button">Resume</a>
+
+    <div id="home" class="content">
+        <h1>Home Page</h1>
+        <p>Welcome to the Home Page!</p>
+    </div>
+
+    <div id="page2" class="content hidden">
+        <h1>Page 2</h1>
+        <p>Welcome to Page 2!</p>
+    </div>
+
+    <div id="page3" class="content hidden">
+        <h1>Page 3</h1>
+        <p>Welcome to Page 3!</p>
+    </div>
+
+    <script>
+        function showPage(pageId) {
+            const pages = document.querySelectorAll('.content');
+            pages.forEach(page => page.classList.add('hidden'));
+            document.getElementById(pageId).classList.remove('hidden');
+        }
+    </script>
 </body>
 </html>
