@@ -1,5 +1,5 @@
 function validatePIN() {
-    const correctPIN = "1234"; // Set your desired PIN here
+    const correctPIN = "904196"; // Set your desired PIN here
     const enteredPIN = document.getElementById("pinInput").value;
     const errorMessage = document.getElementById("errorMessage");
 
