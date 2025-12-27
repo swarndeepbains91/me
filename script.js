@@ -1,5 +1,49 @@
-// TechThrillist Interactive Features
+// Portfolio Interactive Features
 document.addEventListener('DOMContentLoaded', function() {
+    // Dark Mode Toggle - Simplified and Fixed
+    console.log('Script loaded');
+    
+    function initThemeToggle() {
+        const themeToggle = document.getElementById('themeToggle');
+        const html = document.documentElement;
+        
+        console.log('Looking for theme toggle...');
+        console.log('Theme toggle element:', themeToggle);
+        
+        if (!themeToggle) {
+            console.error('Theme toggle button not found!');
+            return;
+        }
+        
+        console.log('Theme toggle found successfully');
+        
+        // Set dark mode as default
+        const savedTheme = localStorage.getItem('theme') || 'dark';
+        console.log('Setting theme to:', savedTheme);
+        html.setAttribute('data-theme', savedTheme);
+        
+        // Add click event listener
+        themeToggle.addEventListener('click', function(e) {
+            e.preventDefault();
+            console.log('Toggle clicked!');
+            
+            const currentTheme = html.getAttribute('data-theme') || 'dark';
+            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+            
+            console.log(`Switching from ${currentTheme} to ${newTheme}`);
+            
+            html.setAttribute('data-theme', newTheme);
+            localStorage.setItem('theme', newTheme);
+            
+            console.log('Theme switched successfully');
+        });
+        
+        console.log('Theme toggle initialized successfully');
+    }
+    
+    // Initialize theme toggle
+    initThemeToggle();
+    
     // Smooth scrolling for navigation links
     const navLinks = document.querySelectorAll('.nav-menu a[href^="#"]');
     
@@ -106,13 +150,13 @@ document.addEventListener('DOMContentLoaded', function() {
         button.addEventListener('click', function(e) {
             e.preventDefault();
             
-            if (this.textContent.includes('Explore')) {
-                document.querySelector('#innovations').scrollIntoView({
+            if (this.textContent.includes('Experience') || this.textContent.includes('Projects')) {
+                document.querySelector('#experience').scrollIntoView({
                     behavior: 'smooth',
                     block: 'start'
                 });
-            } else if (this.textContent.includes('Projects')) {
-                document.querySelector('#projects').scrollIntoView({
+            } else if (this.textContent.includes('Skills') || this.textContent.includes('Technical')) {
+                document.querySelector('#skills').scrollIntoView({
                     behavior: 'smooth',
                     block: 'start'
                 });
@@ -247,16 +291,26 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 // Add dynamic CSS animations
-const style = document.createElement('style');
-style.textContent = `
+const scriptStyle = document.createElement('style');
+scriptStyle.textContent = `
     .header.scrolled {
-        background: rgba(10, 15, 30, 0.98);
+        background: var(--glass-bg);
         backdrop-filter: blur(20px);
     }
     
     .nav-menu a.active {
-        color: var(--primary-cyan);
-        text-shadow: 0 0 10px var(--primary-cyan);
+        color: var(--primary-blue);
+    }
+    
+    @keyframes ripple {
+        0% {
+            transform: scale(0);
+            opacity: 1;
+        }
+        100% {
+            transform: scale(2);
+            opacity: 0;
+        }
     }
     
     .animate-in {
@@ -327,4 +381,4 @@ style.textContent = `
         }
     }
 `;
-document.head.appendChild(style);
+document.head.appendChild(scriptStyle);
