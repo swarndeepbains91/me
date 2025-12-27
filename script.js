@@ -350,6 +350,7 @@ scriptStyle.textContent = `
     
     @media (max-width: 768px) {
         .nav-menu {
+            display: flex;
             position: fixed;
             top: 80px;
             left: 0;
@@ -364,6 +365,7 @@ scriptStyle.textContent = `
         }
         
         .nav-menu.active {
+            display: flex;
             transform: translateY(0);
             opacity: 1;
         }
