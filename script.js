@@ -298,6 +298,153 @@ document.addEventListener('DOMContentLoaded', function() {
     }, { threshold: 0.5 });
     
     statNumbers.forEach(stat => statsObserver.observe(stat));
+
+    // Promotion chart initialization
+    function initPromotionChart() {
+        const canvas = document.getElementById('promotionChart');
+        if (!canvas || typeof Chart === 'undefined') return;
+
+        // Years from earliest role through current
+        const labels = ['2014','2015','2016','2017','2018','2019','2020','2021','2022','2023','2024','2025'];
+
+        // Numeric career level per year (higher = more senior)
+        // 1: Jr. iOS Developer / Associate
+        // 2: Technical Analyst / Co-op
+        // 3: Senior Technical Analyst
+        // 4: Team Lead
+        // 5: Tech Lead
+        // 6: Senior Manager
+        const data = [1,1,1,1,2,2,4,4,5,5,5,6];
+
+        // Human-readable mapping for levels
+        const levelLabels = {
+            1: 'Jr / Associate',
+            2: 'Technical Analyst',
+            3: 'Senior Technical Analyst',
+            4: 'Team Lead',
+            5: 'Tech Lead',
+            6: 'Senior Manager'
+        };
+
+        // Job title (or transition notes) per year for tooltip clarity
+        const jobTitles = [
+            'Jr. iOS Developer (IAPP) — May 2014 - Nov 2015',         // 2014
+            'Jr. iOS Developer (IAPP) — May 2014 - Nov 2015',         // 2015
+            'iOS Developer / Technical Analyst Co-op — 2016', // 2016 (Hotspot Life + CIBC co-op overlap)
+            'iOS Developer (Hotspot Life) — 2017',             // 2017
+            'Technical Analyst (CIBC) — 2018',         // 2018
+            'Technical Analyst (CIBC) — 2019 (promoted Nov 2019)', // 2019
+            'Senior Technical Analyst / Transition to Team Lead — 2020', // 2020
+            'Team Lead — 2021',                 // 2021
+            'Team Lead → Tech Lead (Sept 2022)', // 2022
+            'Tech Lead — 2023',                 // 2023
+            'Tech Lead — 2024',                 // 2024
+            'Senior Manager (Apr 2025 - Present)' // 2025
+        ];
+
+        const promotionChart = new Chart(canvas, {
+            type: 'line',
+            data: {
+                labels: labels,
+                datasets: [{
+                    label: 'Career Level',
+                    data: data,
+                    borderColor: getComputedStyle(document.documentElement).getPropertyValue('--primary-blue').trim() || '#0A84FF',
+                    backgroundColor: 'rgba(10,132,255,0.08)',
+                    tension: 0.25,
+                    fill: true,
+                    pointRadius: 6,
+                    pointHoverRadius: 8
+                }]
+            },
+            plugins: [
+                {
+                    id: 'highlightPoint',
+                    afterDatasetsDraw: function(chart) {
+                        const idx = window.promotionHighlightIndex;
+                        if (typeof idx === 'undefined' || idx === null) return;
+                        const meta = chart.getDatasetMeta(0);
+                        const point = meta.data[idx];
+                        if (!point) return;
+                        const ctx = chart.ctx;
+                        ctx.save();
+                        ctx.beginPath();
+                        ctx.arc(point.x, point.y, 14, 0, Math.PI * 2);
+                        ctx.fillStyle = 'rgba(10,132,255,0.15)';
+                        ctx.fill();
+                        ctx.lineWidth = 2;
+                        ctx.strokeStyle = getComputedStyle(document.documentElement).getPropertyValue('--primary-blue').trim() || '#0A84FF';
+                        ctx.stroke();
+                        ctx.restore();
+                    }
+                }
+            ],
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        suggestedMin: 0,
+                        suggestedMax: 6,
+                        ticks: {
+                            stepSize: 1,
+                            callback: function(value) {
+                                return levelLabels[value] || value;
+                            }
+                        }
+                    }
+                },
+                plugins: {
+                    legend: { display: false },
+                    tooltip: {
+                        callbacks: {
+                            title: function(context) {
+                                return context[0].label;
+                            },
+                            label: function(context) {
+                                const idx = context.dataIndex;
+                                const val = context.parsed.y;
+                                const levelName = levelLabels[val] || ('Level ' + val);
+                                const job = jobTitles[idx] || '';
+                                return `${levelName} (${val}) — ${job}`;
+                            }
+                        }
+                    }
+                }
+            }
+        });
+
+        // Build interactive legend under chart
+        const legendContainer = document.getElementById('promotionLegend');
+        if (legendContainer) {
+            legendContainer.innerHTML = '';
+            labels.forEach((year, i) => {
+                const item = document.createElement('div');
+                item.className = 'legend-item';
+                const short = jobTitles[i] ? (jobTitles[i].length > 40 ? jobTitles[i].slice(0, 37) + '...' : jobTitles[i]) : '';
+                item.innerHTML = `<span class="legend-year">${year}</span><span class="legend-job">${short}</span>`;
+                item.style.cssText = 'padding:6px 10px;border-radius:8px;background:var(--card-bg);cursor:pointer;font-size:13px;display:flex;gap:8px;align-items:center;';
+                item.addEventListener('mouseenter', () => {
+                    window.promotionHighlightIndex = i;
+                    promotionChart.draw();
+                });
+                item.addEventListener('mouseleave', () => {
+                    window.promotionHighlightIndex = null;
+                    promotionChart.draw();
+                });
+                item.addEventListener('click', () => {
+                    // Show tooltip on click
+                    promotionChart.setActiveElements([{datasetIndex:0, index:i}]);
+                    promotionChart.tooltip.setActiveElements([{datasetIndex:0, index:i}], {x:0,y:0});
+                    promotionChart.update();
+                });
+                legendContainer.appendChild(item);
+            });
+        }
+    }
+
+    initPromotionChart();
 });
 
 // Add dynamic CSS animations
@@ -436,6 +583,42 @@ scriptStyle.textContent = `
         .nav-toggle.active span:nth-child(3) {
             transform: rotate(-45deg) translate(7px, -6px);
         }
+    }
+
+    /* Promotion legend styles */
+    .promotion-legend {
+        display: flex;
+        gap: 8px;
+        flex-wrap: wrap;
+        justify-content: center;
+        align-items: center;
+        margin-top: 8px;
+    }
+
+    .promotion-legend .legend-item {
+        background: var(--card-bg);
+        padding: 6px 10px;
+        border-radius: 8px;
+        display: flex;
+        gap: 8px;
+        align-items: center;
+        cursor: pointer;
+        border: 1px solid transparent;
+    }
+
+    .promotion-legend .legend-item:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 18px rgba(10,132,255,0.12);
+        border-color: rgba(10,132,255,0.18);
+    }
+
+    .promotion-legend .legend-job {
+        max-width: 220px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        font-size: 13px;
+        color: var(--dark-text);
     }
 `;
 document.head.appendChild(scriptStyle);
