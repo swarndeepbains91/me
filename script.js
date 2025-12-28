@@ -103,15 +103,25 @@ document.addEventListener('DOMContentLoaded', function() {
     
     window.addEventListener('scroll', handleScroll);
     
-    // Mobile menu toggle
+    // Mobile menu toggle - Fixed
     const navToggle = document.querySelector('.nav-toggle');
     const navMenu = document.querySelector('.nav-menu');
     
-    if (navToggle) {
-        navToggle.addEventListener('click', function() {
+    console.log('Mobile nav elements:', { navToggle, navMenu });
+    
+    if (navToggle && navMenu) {
+        navToggle.addEventListener('click', function(e) {
+            e.preventDefault();
+            console.log('Mobile menu toggle clicked');
+            
             navMenu.classList.toggle('active');
             this.classList.toggle('active');
+            
+            console.log('Menu active:', navMenu.classList.contains('active'));
+            console.log('Toggle active:', this.classList.contains('active'));
         });
+    } else {
+        console.error('Mobile navigation elements not found:', { navToggle, navMenu });
     }
     
     // Close mobile menu on link click
@@ -313,6 +323,17 @@ scriptStyle.textContent = `
         }
     }
     
+    @keyframes slideDown {
+        0% {
+            opacity: 0;
+            transform: translateY(-20px);
+        }
+        100% {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+    
     .animate-in {
         opacity: 1 !important;
         transform: translateY(0) !important;
@@ -350,24 +371,58 @@ scriptStyle.textContent = `
     
     @media (max-width: 768px) {
         .nav-menu {
-            display: flex;
+            display: none;
             position: fixed;
-            top: 80px;
-            left: 0;
-            right: 0;
-            background: rgba(10, 15, 30, 0.98);
+            top: 72px;
+            left: 16px;
+            right: 16px;
+            background: var(--card-bg);
             backdrop-filter: blur(20px);
+            border: 1px solid var(--border-light);
+            border-radius: 16px;
             flex-direction: column;
-            padding: 20px;
-            transform: translateY(-100%);
-            opacity: 0;
-            transition: all 0.3s ease;
+            padding: 16px;
+            z-index: 999;
+            box-shadow: 0 16px 48px var(--shadow-light);
         }
         
         .nav-menu.active {
             display: flex;
-            transform: translateY(0);
-            opacity: 1;
+            animation: slideDown 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+        }
+        
+        .nav-menu li {
+            margin-bottom: 8px;
+        }
+        
+        .nav-menu li:last-child {
+            margin-bottom: 0;
+        }
+        
+        .nav-menu a {
+            display: block;
+            padding: 16px 20px;
+            background: var(--light-bg);
+            color: var(--dark-text);
+            border: 1px solid var(--border-light);
+            border-radius: 12px;
+            font-weight: 500;
+            text-align: center;
+            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+            text-decoration: none;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+        }
+        
+        .nav-menu a:hover, .nav-menu a:active {
+            background: var(--primary-blue);
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 122, 255, 0.3);
+            border-color: var(--primary-blue);
+        }
+        
+        .nav-menu a::after {
+            display: none;
         }
         
         .nav-toggle.active span:nth-child(1) {

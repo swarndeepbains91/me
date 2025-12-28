@@ -823,6 +823,8 @@ section {
     
     .nav-toggle {
         display: flex;
+        z-index: 1001;
+        position: relative;
     }
     
     .nav-controls {
