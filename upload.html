@@ -1,0 +1,596 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>File Upload - S B Portfolio</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        .upload-section {
+            background: var(--dark-bg);
+            padding: 120px 0 80px;
+            min-height: 100vh;
+        }
+
+        .upload-container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .upload-header {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+
+        .upload-header h1 {
+            font-family: 'Orbitron', monospace;
+            font-size: 3rem;
+            font-weight: 900;
+            color: var(--primary-blue);
+            margin-bottom: 20px;
+        }
+
+        .upload-header p {
+            color: var(--accent-text);
+            font-size: 1.2rem;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .upload-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border-light);
+            border-radius: 20px;
+            padding: 40px;
+            margin-bottom: 40px;
+            box-shadow: 0 16px 48px var(--shadow-light);
+        }
+
+        .upload-zone {
+            border: 2px dashed var(--border-light);
+            border-radius: 16px;
+            padding: 60px 40px;
+            text-align: center;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            margin-bottom: 30px;
+        }
+
+        .upload-zone:hover,
+        .upload-zone.dragover {
+            border-color: var(--primary-blue);
+            background: rgba(10, 132, 255, 0.05);
+        }
+
+        .upload-zone-icon {
+            font-size: 4rem;
+            margin-bottom: 20px;
+            color: var(--primary-blue);
+        }
+
+        .upload-zone h3 {
+            color: var(--dark-text);
+            font-size: 1.5rem;
+            margin-bottom: 10px;
+        }
+
+        .upload-zone p {
+            color: var(--accent-text);
+            margin-bottom: 20px;
+        }
+
+        .file-input {
+            display: none;
+        }
+
+        .upload-btn {
+            background: var(--primary-blue);
+            color: white;
+            padding: 12px 30px;
+            border: none;
+            border-radius: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .upload-btn:hover {
+            background: #0066CC;
+            transform: translateY(-2px);
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 6px;
+            background: var(--light-bg);
+            border-radius: 3px;
+            overflow: hidden;
+            margin: 20px 0;
+            display: none;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--primary-blue), #00CCFF);
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+
+        .upload-result {
+            margin-top: 20px;
+            padding: 20px;
+            border-radius: 12px;
+            display: none;
+        }
+
+        .upload-success {
+            background: rgba(52, 199, 89, 0.1);
+            border: 1px solid rgba(52, 199, 89, 0.3);
+            color: #34C759;
+        }
+
+        .upload-error {
+            background: rgba(255, 69, 58, 0.1);
+            border: 1px solid rgba(255, 69, 58, 0.3);
+            color: #FF453A;
+        }
+
+        .files-list {
+            background: var(--card-bg);
+            border: 1px solid var(--border-light);
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 16px 48px var(--shadow-light);
+        }
+
+        .files-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid var(--border-light);
+        }
+
+        .files-header h2 {
+            color: var(--dark-text);
+            font-size: 1.8rem;
+            margin: 0;
+        }
+
+        .refresh-btn {
+            background: var(--light-bg);
+            color: var(--dark-text);
+            border: 1px solid var(--border-light);
+            padding: 10px 20px;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .refresh-btn:hover {
+            background: var(--primary-blue);
+            color: white;
+        }
+
+        .file-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px;
+            border: 1px solid var(--border-light);
+            border-radius: 12px;
+            margin-bottom: 15px;
+            transition: all 0.3s ease;
+        }
+
+        .file-item:hover {
+            border-color: var(--primary-blue);
+            transform: translateY(-2px);
+        }
+
+        .file-info {
+            flex: 1;
+        }
+
+        .file-name {
+            color: var(--dark-text);
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+
+        .file-meta {
+            color: var(--accent-text);
+            font-size: 0.9rem;
+        }
+
+        .file-actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        .file-action-btn {
+            padding: 8px 16px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+        }
+
+        .download-btn {
+            background: var(--primary-blue);
+            color: white;
+        }
+
+        .download-btn:hover {
+            background: #0066CC;
+        }
+
+        .delete-btn {
+            background: #FF453A;
+            color: white;
+        }
+
+        .delete-btn:hover {
+            background: #CC3A2A;
+        }
+
+        .nav-link {
+            position: fixed;
+            top: 30px;
+            left: 30px;
+            background: var(--card-bg);
+            color: var(--dark-text);
+            padding: 12px 24px;
+            border-radius: 12px;
+            text-decoration: none;
+            border: 1px solid var(--border-light);
+            transition: all 0.3s ease;
+            z-index: 1000;
+        }
+
+        .nav-link:hover {
+            background: var(--primary-blue);
+            color: white;
+            transform: translateY(-2px);
+        }
+
+        @media (max-width: 768px) {
+            .upload-header h1 {
+                font-size: 2rem;
+            }
+            
+            .upload-card,
+            .files-list {
+                padding: 30px 20px;
+            }
+            
+            .upload-zone {
+                padding: 40px 20px;
+            }
+            
+            .file-item {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 15px;
+            }
+            
+            .file-actions {
+                width: 100%;
+                justify-content: flex-end;
+            }
+        }
+    </style>
+</head>
+<body>
+    <a href="index.html" class="nav-link">← Back to Portfolio</a>
+
+    <main>
+        <section class="upload-section">
+            <div class="upload-container">
+                <div class="upload-header">
+                    <h1>File Upload</h1>
+                    <p>Upload and manage your files securely. Supports images, documents, and archive files up to 10MB.</p>
+                </div>
+
+                <div class="upload-card">
+                    <div class="upload-zone" id="uploadZone">
+                        <div class="upload-zone-icon">📁</div>
+                        <h3>Drop files here or click to browse</h3>
+                        <p>Supported formats: JPEG, PNG, PDF, DOC, TXT, ZIP (Max 10MB)</p>
+                        <input type="file" id="fileInput" class="file-input" multiple accept=".jpg,.jpeg,.png,.gif,.pdf,.doc,.docx,.txt,.zip">
+                        <button type="button" class="upload-btn" onclick="document.getElementById('fileInput').click()">
+                            Choose Files
+                        </button>
+                    </div>
+
+                    <div class="progress-bar" id="progressBar">
+                        <div class="progress-fill" id="progressFill"></div>
+                    </div>
+
+                    <div class="upload-result" id="uploadResult">
+                        <!-- Upload result messages will appear here -->
+                    </div>
+
+                    <div style="display: flex; gap: 15px; margin-top: 20px;">
+                        <button type="button" class="upload-btn" id="uploadButton" disabled>
+                            Upload Files
+                        </button>
+                        <button type="button" class="upload-btn" style="background: #666;" id="clearButton">
+                            Clear Selection
+                        </button>
+                    </div>
+
+                    <div id="selectedFiles" style="margin-top: 20px;">
+                        <!-- Selected files will be displayed here -->
+                    </div>
+                </div>
+
+                <div class="files-list">
+                    <div class="files-header">
+                        <h2>Uploaded Files</h2>
+                        <button type="button" class="refresh-btn" id="refreshBtn">
+                            🔄 Refresh
+                        </button>
+                    </div>
+                    <div id="filesList">
+                        <p style="text-align: center; color: var(--accent-text);">Loading files...</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <script src="futuristic-bg.js"></script>
+    <script src="config.js"></script>
+    <script>
+        let selectedFiles = [];
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const uploadZone = document.getElementById('uploadZone');
+            const fileInput = document.getElementById('fileInput');
+            const uploadButton = document.getElementById('uploadButton');
+            const clearButton = document.getElementById('clearButton');
+            const progressBar = document.getElementById('progressBar');
+            const progressFill = document.getElementById('progressFill');
+            const uploadResult = document.getElementById('uploadResult');
+            const selectedFilesDiv = document.getElementById('selectedFiles');
+            const refreshBtn = document.getElementById('refreshBtn');
+
+            // Drag and drop functionality
+            uploadZone.addEventListener('dragover', function(e) {
+                e.preventDefault();
+                uploadZone.classList.add('dragover');
+            });
+
+            uploadZone.addEventListener('dragleave', function() {
+                uploadZone.classList.remove('dragover');
+            });
+
+            uploadZone.addEventListener('drop', function(e) {
+                e.preventDefault();
+                uploadZone.classList.remove('dragover');
+                const files = Array.from(e.dataTransfer.files);
+                handleFileSelection(files);
+            });
+
+            // File input change
+            fileInput.addEventListener('change', function() {
+                const files = Array.from(this.files);
+                handleFileSelection(files);
+            });
+
+            // Handle file selection
+            function handleFileSelection(files) {
+                selectedFiles = files;
+                updateSelectedFilesDisplay();
+                uploadButton.disabled = files.length === 0;
+            }
+
+            // Update selected files display
+            function updateSelectedFilesDisplay() {
+                if (selectedFiles.length === 0) {
+                    selectedFilesDiv.innerHTML = '';
+                    return;
+                }
+
+                const html = selectedFiles.map((file, index) => `
+                    <div class="file-item" style="margin-bottom: 10px;">
+                        <div class="file-info">
+                            <div class="file-name">${file.name}</div>
+                            <div class="file-meta">${formatFileSize(file.size)} • ${file.type || 'Unknown type'}</div>
+                        </div>
+                        <button class="file-action-btn delete-btn" onclick="removeSelectedFile(${index})">Remove</button>
+                    </div>
+                `).join('');
+
+                selectedFilesDiv.innerHTML = `
+                    <h4 style="color: var(--dark-text); margin-bottom: 15px;">Selected Files (${selectedFiles.length})</h4>
+                    ${html}
+                `;
+            }
+
+            // Remove selected file
+            window.removeSelectedFile = function(index) {
+                selectedFiles.splice(index, 1);
+                updateSelectedFilesDisplay();
+                uploadButton.disabled = selectedFiles.length === 0;
+            };
+
+            // Clear selection
+            clearButton.addEventListener('click', function() {
+                selectedFiles = [];
+                fileInput.value = '';
+                updateSelectedFilesDisplay();
+                uploadButton.disabled = true;
+                hideUploadResult();
+            });
+
+            // Upload files
+            uploadButton.addEventListener('click', function() {
+                if (selectedFiles.length === 0) return;
+
+                const formData = new FormData();
+                selectedFiles.forEach(file => {
+                    formData.append('files', file);
+                });
+
+                showProgress();
+                hideUploadResult();
+
+                fetch(APP_CONFIG.endpoints.uploadMultiple(), {
+                    method: 'POST',
+                    body: formData
+                })
+                .then(response => response.json())
+                .then(data => {
+                    hideProgress();
+                    if (data.success) {
+                        showUploadResult('success', data.message);
+                        selectedFiles = [];
+                        fileInput.value = '';
+                        updateSelectedFilesDisplay();
+                        uploadButton.disabled = true;
+                        loadFilesList();
+                    } else {
+                        showUploadResult('error', data.error || 'Upload failed');
+                    }
+                })
+                .catch(error => {
+                    hideProgress();
+                    showUploadResult('error', 'Upload failed: ' + error.message);
+                });
+            });
+
+            // Show progress
+            function showProgress() {
+                progressBar.style.display = 'block';
+                progressFill.style.width = '0%';
+                
+                // Simulate progress
+                let progress = 0;
+                const interval = setInterval(() => {
+                    progress += Math.random() * 15;
+                    if (progress >= 90) {
+                        clearInterval(interval);
+                        progressFill.style.width = '90%';
+                    } else {
+                        progressFill.style.width = progress + '%';
+                    }
+                }, 200);
+            }
+
+            // Hide progress
+            function hideProgress() {
+                progressFill.style.width = '100%';
+                setTimeout(() => {
+                    progressBar.style.display = 'none';
+                    progressFill.style.width = '0%';
+                }, 500);
+            }
+
+            // Show upload result
+            function showUploadResult(type, message) {
+                uploadResult.className = 'upload-result upload-' + type;
+                uploadResult.innerHTML = message;
+                uploadResult.style.display = 'block';
+            }
+
+            // Hide upload result
+            function hideUploadResult() {
+                uploadResult.style.display = 'none';
+            }
+
+            // Format file size
+            function formatFileSize(bytes) {
+                if (bytes === 0) return '0 Bytes';
+                const k = 1024;
+                const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+                const i = Math.floor(Math.log(bytes) / Math.log(k));
+                return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
+            }
+
+            // Load files list
+            function loadFilesList() {
+                fetch(APP_CONFIG.endpoints.files())
+                .then(response => response.json())
+                .then(data => {
+                    const filesList = document.getElementById('filesList');
+                    
+                    if (data.success && data.files.length > 0) {
+                        const html = data.files.map(file => `
+                            <div class="file-item">
+                                <div class="file-info">
+                                    <div class="file-name">${file.filename}</div>
+                                    <div class="file-meta">
+                                        ${formatFileSize(file.size)} • 
+                                        Uploaded: ${new Date(file.uploadDate).toLocaleDateString()}
+                                    </div>
+                                </div>
+                                <div class="file-actions">
+                                    <button class="file-action-btn download-btn" onclick="downloadFile('${file.path}', '${file.filename}')">
+                                        Download
+                                    </button>
+                                    <button class="file-action-btn delete-btn" onclick="deleteFile('${file.filename}')">
+                                        Delete
+                                    </button>
+                                </div>
+                            </div>
+                        `).join('');
+                        
+                        filesList.innerHTML = html;
+                    } else {
+                        filesList.innerHTML = '<p style="text-align: center; color: var(--accent-text);">No files uploaded yet.</p>';
+                    }
+                })
+                .catch(error => {
+                    document.getElementById('filesList').innerHTML = '<p style="text-align: center; color: #FF453A;">Error loading files: ' + error.message + '</p>';
+                });
+            }
+
+            // Download file
+            window.downloadFile = function(path, filename) {
+                const link = document.createElement('a');
+                link.href = path;
+                link.download = filename;
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+            };
+
+            // Delete file
+            window.deleteFile = function(filename) {
+                if (!confirm(`Are you sure you want to delete "${filename}"?`)) return;
+
+                fetch(APP_CONFIG.endpoints.deleteFile(filename), {
+                    method: 'DELETE'
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        loadFilesList();
+                        showUploadResult('success', 'File deleted successfully');
+                        setTimeout(hideUploadResult, 3000);
+                    } else {
+                        showUploadResult('error', data.error || 'Delete failed');
+                    }
+                })
+                .catch(error => {
+                    showUploadResult('error', 'Delete failed: ' + error.message);
+                });
+            };
+
+            // Refresh files list
+            refreshBtn.addEventListener('click', loadFilesList);
+
+            // Initial load
+            loadFilesList();
+        });
+    </script>
+</body>
+</html>
