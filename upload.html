@@ -443,13 +443,26 @@
                 showProgress();
                 hideUploadResult();
 
-                fetch(APP_CONFIG.endpoints.uploadMultiple(), {
+                const uploadUrl = APP_CONFIG.endpoints.uploadMultiple();
+                console.log('Uploading to:', uploadUrl);
+                
+                fetch(uploadUrl, {
                     method: 'POST',
                     body: formData
                 })
-                .then(response => response.json())
+                .then(response => {
+                    console.log('Upload response status:', response.status, response.statusText);
+                    
+                    if (!response.ok) {
+                        throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+                    }
+                    
+                    return response.json();
+                })
                 .then(data => {
+                    console.log('Upload response data:', data);
                     hideProgress();
+                    
                     if (data.success) {
                         showUploadResult('success', data.message);
                         selectedFiles = [];
@@ -462,8 +475,19 @@
                     }
                 })
                 .catch(error => {
+                    console.error('Upload error:', error);
                     hideProgress();
-                    showUploadResult('error', 'Upload failed: ' + error.message);
+                    
+                    let errorMessage = 'Upload failed: ';
+                    if (error.name === 'TypeError' && error.message.includes('fetch')) {
+                        errorMessage += 'Cannot connect to server. Please check if the API is running.';
+                    } else if (error.message.includes('JSON')) {
+                        errorMessage += 'Invalid server response. Please check server configuration.';
+                    } else {
+                        errorMessage += error.message;
+                    }
+                    
+                    showUploadResult('error', errorMessage);
                 });
             });
 
@@ -517,12 +541,25 @@
 
             // Load files list
             function loadFilesList() {
+                const filesList = document.getElementById('filesList');
+                filesList.innerHTML = '<p style="text-align: center; color: var(--accent-text);">Loading files...</p>';
+                
+                console.log('Loading files from:', APP_CONFIG.endpoints.files());
+                
                 fetch(APP_CONFIG.endpoints.files())
-                .then(response => response.json())
-                .then(data => {
-                    const filesList = document.getElementById('filesList');
+                .then(response => {
+                    console.log('Files response status:', response.status, response.statusText);
                     
-                    if (data.success && data.files.length > 0) {
+                    if (!response.ok) {
+                        throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+                    }
+                    
+                    return response.json();
+                })
+                .then(data => {
+                    console.log('Files data received:', data);
+                    
+                    if (data.success && data.files && data.files.length > 0) {
                         const html = data.files.map(file => `
                             <div class="file-item">
                                 <div class="file-info">
@@ -549,7 +586,29 @@
                     }
                 })
                 .catch(error => {
-                    document.getElementById('filesList').innerHTML = '<p style="text-align: center; color: #FF453A;">Error loading files: ' + error.message + '</p>';
+                    console.error('Error loading files:', error);
+                    
+                    let errorMessage = 'Error loading files: ';
+                    if (error.name === 'TypeError' && error.message.includes('fetch')) {
+                        errorMessage += 'Cannot connect to server. Please check if the API is running.';
+                    } else if (error.message.includes('JSON')) {
+                        errorMessage += 'Invalid server response. Please check server configuration.';
+                    } else {
+                        errorMessage += error.message;
+                    }
+                    
+                    filesList.innerHTML = `
+                        <div style="text-align: center; color: #FF453A; padding: 20px;">
+                            <p>${errorMessage}</p>
+                            <p style="font-size: 0.9em; margin-top: 10px; color: var(--accent-text);">
+                                API URL: ${APP_CONFIG.getApiUrl()}<br>
+                                Endpoint: ${APP_CONFIG.endpoints.files()}
+                            </p>
+                            <button class="refresh-btn" onclick="loadFilesList()" style="margin-top: 15px;">
+                                🔄 Retry
+                            </button>
+                        </div>
+                    `;
                 });
             }
 
@@ -567,11 +626,24 @@
             window.deleteFile = function(filename) {
                 if (!confirm(`Are you sure you want to delete "${filename}"?`)) return;
 
-                fetch(APP_CONFIG.endpoints.deleteFile(filename), {
+                const deleteUrl = APP_CONFIG.endpoints.deleteFile(filename);
+                console.log('Deleting file:', deleteUrl);
+
+                fetch(deleteUrl, {
                     method: 'DELETE'
                 })
-                .then(response => response.json())
+                .then(response => {
+                    console.log('Delete response status:', response.status, response.statusText);
+                    
+                    if (!response.ok) {
+                        throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+                    }
+                    
+                    return response.json();
+                })
                 .then(data => {
+                    console.log('Delete response data:', data);
+                    
                     if (data.success) {
                         loadFilesList();
                         showUploadResult('success', 'File deleted successfully');
@@ -581,7 +653,18 @@
                     }
                 })
                 .catch(error => {
-                    showUploadResult('error', 'Delete failed: ' + error.message);
+                    console.error('Delete error:', error);
+                    
+                    let errorMessage = 'Delete failed: ';
+                    if (error.name === 'TypeError' && error.message.includes('fetch')) {
+                        errorMessage += 'Cannot connect to server. Please check if the API is running.';
+                    } else if (error.message.includes('JSON')) {
+                        errorMessage += 'Invalid server response. Please check server configuration.';
+                    } else {
+                        errorMessage += error.message;
+                    }
+                    
+                    showUploadResult('error', errorMessage);
                 });
             };
 
