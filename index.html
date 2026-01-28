@@ -46,7 +46,7 @@
             <div class="container hero-content">
                 <h1 class="hero-title">
                     <span class="line">SENIOR MANAGER</span>
-                    <span class="line highlight-text">CORE PROTECTION</span>
+                    <span class="line highlight-text bubble-text" id="coreProtection"><span class="bubble-char">C</span><span class="bubble-char">O</span><span class="bubble-char">R</span><span class="bubble-char">E</span><span class="bubble-char space">&nbsp;&nbsp;</span><span class="bubble-char">P</span><span class="bubble-char">R</span><span class="bubble-char">O</span><span class="bubble-char">T</span><span class="bubble-char">E</span><span class="bubble-char">C</span><span class="bubble-char">T</span><span class="bubble-char">I</span><span class="bubble-char">O</span><span class="bubble-char">N</span></span>
                     <span class="line">TEAM</span>
                 </h1>
                 <p class="hero-subtitle">Senior IT leader with 8+ years of experience in financial crimes technology, application operations, and strategic team management.</p>
@@ -533,7 +533,184 @@
                 height: 30px;
             }
         }
+    /* Bubble Character Effect */
+        .bubble-text {
+            display: inline-block;
+        }
+
+        .bubble-char {
+            display: inline-block;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            font-weight: 900;
+            font-size: 125%;
+            -webkit-text-stroke: 1px rgba(0,0,0,0.3);
+        }
+
+        /* Different colors for each character */
+        .bubble-char:nth-child(1) { color: #ff6b6b; text-shadow: 0 0 3px rgba(255, 107, 107, 0.5), 0 2px 2px rgba(0,0,0,0.2); }
+        .bubble-char:nth-child(2) { color: #ffa94d; text-shadow: 0 0 3px rgba(255, 169, 77, 0.5), 0 2px 2px rgba(0,0,0,0.2); }
+        .bubble-char:nth-child(3) { color: #ffd43b; text-shadow: 0 0 3px rgba(255, 212, 59, 0.5), 0 2px 2px rgba(0,0,0,0.2); }
+        .bubble-char:nth-child(4) { color: #69db7c; text-shadow: 0 0 3px rgba(105, 219, 124, 0.5), 0 2px 2px rgba(0,0,0,0.2); }
+        .bubble-char:nth-child(5) { color: transparent; }
+        .bubble-char:nth-child(6) { color: #4dabf7; text-shadow: 0 0 3px rgba(77, 171, 247, 0.5), 0 2px 2px rgba(0,0,0,0.2); }
+        .bubble-char:nth-child(7) { color: #9775fa; text-shadow: 0 0 3px rgba(151, 117, 250, 0.5), 0 2px 2px rgba(0,0,0,0.2); }
+        .bubble-char:nth-child(8) { color: #da77f2; text-shadow: 0 0 3px rgba(218, 119, 242, 0.5), 0 2px 2px rgba(0,0,0,0.2); }
+        .bubble-char:nth-child(9) { color: #f783ac; text-shadow: 0 0 3px rgba(247, 131, 172, 0.5), 0 2px 2px rgba(0,0,0,0.2); }
+        .bubble-char:nth-child(10) { color: #ff6b6b; text-shadow: 0 0 3px rgba(255, 107, 107, 0.5), 0 2px 2px rgba(0,0,0,0.2); }
+        .bubble-char:nth-child(11) { color: #ffa94d; text-shadow: 0 0 3px rgba(255, 169, 77, 0.5), 0 2px 2px rgba(0,0,0,0.2); }
+        .bubble-char:nth-child(12) { color: #ffd43b; text-shadow: 0 0 3px rgba(255, 212, 59, 0.5), 0 2px 2px rgba(0,0,0,0.2); }
+        .bubble-char:nth-child(13) { color: #69db7c; text-shadow: 0 0 3px rgba(105, 219, 124, 0.5), 0 2px 2px rgba(0,0,0,0.2); }
+        .bubble-char:nth-child(14) { color: #4dabf7; text-shadow: 0 0 3px rgba(77, 171, 247, 0.5), 0 2px 2px rgba(0,0,0,0.2); }
+        .bubble-char:nth-child(15) { color: #9775fa; text-shadow: 0 0 3px rgba(151, 117, 250, 0.5), 0 2px 2px rgba(0,0,0,0.2); }
+
+        .bubble-char.space {
+            width: 0.4em;
+        }
+
+        .bubble-char:hover {
+            transform: scale(1.8);
+            animation: bubbleWobble 0.3s ease;
+        }
+
+        .bubble-char:nth-child(1):hover { text-shadow: 0 0 8px rgba(255, 107, 107, 0.8); }
+        .bubble-char:nth-child(2):hover { text-shadow: 0 0 8px rgba(255, 169, 77, 0.8); }
+        .bubble-char:nth-child(3):hover { text-shadow: 0 0 8px rgba(255, 212, 59, 0.8); }
+        .bubble-char:nth-child(4):hover { text-shadow: 0 0 8px rgba(105, 219, 124, 0.8); }
+        .bubble-char:nth-child(6):hover { text-shadow: 0 0 8px rgba(77, 171, 247, 0.8); }
+        .bubble-char:nth-child(7):hover { text-shadow: 0 0 8px rgba(151, 117, 250, 0.8); }
+        .bubble-char:nth-child(8):hover { text-shadow: 0 0 8px rgba(218, 119, 242, 0.8); }
+        .bubble-char:nth-child(9):hover { text-shadow: 0 0 8px rgba(247, 131, 172, 0.8); }
+        .bubble-char:nth-child(10):hover { text-shadow: 0 0 8px rgba(255, 107, 107, 0.8); }
+        .bubble-char:nth-child(11):hover { text-shadow: 0 0 8px rgba(255, 169, 77, 0.8); }
+        .bubble-char:nth-child(12):hover { text-shadow: 0 0 8px rgba(255, 212, 59, 0.8); }
+        .bubble-char:nth-child(13):hover { text-shadow: 0 0 8px rgba(105, 219, 124, 0.8); }
+        .bubble-char:nth-child(14):hover { text-shadow: 0 0 8px rgba(77, 171, 247, 0.8); }
+        .bubble-char:nth-child(15):hover { text-shadow: 0 0 8px rgba(151, 117, 250, 0.8); }
+
+        .bubble-char.popped {
+            animation: charPop 0.5s ease-out forwards;
+        }
+
+        .bubble-char.space {
+            background: none;
+            -webkit-text-fill-color: transparent;
+        }
+
+        @keyframes bubbleWobble {
+            0%, 100% { transform: scale(1.8) rotate(0deg); }
+            25% { transform: scale(2) rotate(-5deg); }
+            75% { transform: scale(2) rotate(5deg); }
+        }
+
+        @keyframes charPop {
+            0% {
+                transform: scale(1);
+                opacity: 1;
+            }
+            30% {
+                transform: scale(2.5);
+                opacity: 1;
+            }
+            100% {
+                transform: scale(0);
+                opacity: 0;
+            }
+        }
+
+        @keyframes charReturn {
+            0% {
+                transform: scale(0);
+                opacity: 0;
+            }
+            60% {
+                transform: scale(1.5);
+                opacity: 1;
+            }
+            100% {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        .bubble-char.returning {
+            animation: charReturn 0.4s ease-out forwards;
+        }
+
+        /* Pop particles */
+        .pop-particle {
+            position: absolute;
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: rgba(0, 255, 255, 0.8);
+            pointer-events: none;
+            animation: particleFly 0.5s ease-out forwards;
+        }
+
+        @keyframes particleFly {
+            0% {
+                transform: translate(0, 0) scale(1);
+                opacity: 1;
+            }
+            100% {
+                transform: translate(var(--tx), var(--ty)) scale(0);
+                opacity: 0;
+            }
+        }
     </style>
+
+    <script>
+        // Bubble character pop effect
+        (function() {
+            const chars = document.querySelectorAll('.bubble-char:not(.space)');
+            const colors = [
+                '#ff6b6b', '#ffa94d', '#ffd43b', '#69db7c', null,
+                '#4dabf7', '#9775fa', '#da77f2', '#f783ac', '#ff6b6b',
+                '#ffa94d', '#ffd43b', '#69db7c', '#4dabf7', '#9775fa'
+            ];
+
+            chars.forEach((char, index) => {
+                char.addEventListener('click', function() {
+                    if (this.classList.contains('popped')) return;
+
+                    // Get color for this character
+                    const color = colors[index] || '#00ffff';
+
+                    // Create pop particles
+                    const rect = this.getBoundingClientRect();
+                    for (let i = 0; i < 12; i++) {
+                        const particle = document.createElement('div');
+                        particle.className = 'pop-particle';
+                        const angle = (i / 12) * Math.PI * 2;
+                        const distance = 50 + Math.random() * 30;
+                        particle.style.cssText = `
+                            left: ${rect.left + rect.width/2}px;
+                            top: ${rect.top + rect.height/2}px;
+                            position: fixed;
+                            background: ${color};
+                            box-shadow: 0 0 10px ${color};
+                            --tx: ${Math.cos(angle) * distance}px;
+                            --ty: ${Math.sin(angle) * distance}px;
+                        `;
+                        document.body.appendChild(particle);
+                        setTimeout(() => particle.remove(), 500);
+                    }
+
+                    // Pop the character
+                    this.classList.add('popped');
+
+                    // Return after delay
+                    setTimeout(() => {
+                        this.classList.remove('popped');
+                        this.classList.add('returning');
+                        setTimeout(() => this.classList.remove('returning'), 400);
+                    }, 1000);
+                });
+            });
+        })();
+    </script>
 
     <script src="futuristic-bg.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
