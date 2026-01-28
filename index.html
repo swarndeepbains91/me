@@ -425,6 +425,102 @@
         </div>
     </footer>
 
+    <!-- Background Music -->
+    <audio id="bgMusic" loop autoplay>
+        <source src="background.mp3" type="audio/mpeg">
+    </audio>
+    <button class="music-toggle playing" id="musicToggle" aria-label="Toggle music">
+        <span class="music-icon music-off">🔇</span>
+        <span class="music-icon music-on">🎵</span>
+    </button>
+
+    <style>
+        .music-toggle {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: rgba(0, 0, 0, 0.7);
+            border: 2px solid rgba(0, 255, 255, 0.5);
+            cursor: pointer;
+            z-index: 1001;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+
+        .music-toggle:hover {
+            background: rgba(0, 255, 255, 0.2);
+            border-color: #00ffff;
+            transform: scale(1.1);
+        }
+
+        .music-icon {
+            font-size: 1.5rem;
+            display: none;
+        }
+
+        .music-toggle.playing .music-on {
+            display: block;
+            animation: pulse 1s ease infinite;
+        }
+
+        .music-toggle:not(.playing) .music-off {
+            display: block;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.2); }
+        }
+    </style>
+
+    <script>
+        // Background music control
+        (function() {
+            const music = document.getElementById('bgMusic');
+            const toggle = document.getElementById('musicToggle');
+            let hasInteracted = false;
+
+            // Try to play on load
+            music.play().then(() => {
+                toggle.classList.add('playing');
+            }).catch(() => {
+                // Autoplay blocked, will play on first interaction
+                toggle.classList.remove('playing');
+            });
+
+            // Play on first user interaction if autoplay was blocked
+            function playOnInteraction() {
+                if (!hasInteracted && music.paused) {
+                    music.play().then(() => {
+                        toggle.classList.add('playing');
+                    });
+                    hasInteracted = true;
+                }
+            }
+
+            document.addEventListener('click', playOnInteraction, { once: true });
+            document.addEventListener('keydown', playOnInteraction, { once: true });
+            document.addEventListener('scroll', playOnInteraction, { once: true });
+
+            toggle.addEventListener('click', (e) => {
+                e.stopPropagation();
+                hasInteracted = true;
+                if (music.paused) {
+                    music.play();
+                    toggle.classList.add('playing');
+                } else {
+                    music.pause();
+                    toggle.classList.remove('playing');
+                }
+            });
+        })();
+    </script>
+
     <!-- Mascot Coming Out of Hole -->
     <div class="mascot-hole" id="mascotHole">
         <div class="hole-dirt"></div>
@@ -536,6 +632,7 @@
     /* Bubble Character Effect */
         .bubble-text {
             display: inline-block;
+            white-space: nowrap;
         }
 
         .bubble-char {
@@ -544,7 +641,7 @@
             transition: all 0.3s ease;
             position: relative;
             font-weight: 900;
-            font-size: 125%;
+            font-size: 119%;
             -webkit-text-stroke: 1px rgba(0,0,0,0.3);
         }
 
