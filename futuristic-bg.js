@@ -11,6 +11,14 @@ class FuturisticBackground {
         this.init();
         this.createParticles();
         this.setupEventListeners();
+        document.addEventListener('portfolio-motion-change', () => {
+            cancelAnimationFrame(this.animationFrame);
+            this.animate();
+        });
+        window.matchMedia('(prefers-reduced-motion: reduce)').addEventListener('change', () => {
+            cancelAnimationFrame(this.animationFrame);
+            this.animate();
+        });
         this.animate();
     }
     
@@ -26,8 +34,8 @@ class FuturisticBackground {
         this.canvas.style.height = '100%';
         this.canvas.style.zIndex = '1';
         
-        this.resize();
         container.appendChild(this.canvas);
+        this.resize();
     }
     
     resize() {
@@ -229,6 +237,11 @@ class FuturisticBackground {
     }
     
     animate() {
+        if (document.documentElement.dataset.motion === 'off' || window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+            this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+            this.animationFrame = null;
+            return;
+        }
         // Clear canvas
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
         

@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>S B - Tech Lead & DevOps Expert</title>
+    <title>S B — Technology Leadership & Operational Resilience</title>
     <link rel="stylesheet" href="styles.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -16,48 +16,60 @@
                 <div class="logo">
                     <h1>S<span class="highlight">B</span></h1>
                 </div>
-                <ul class="nav-menu">
+                <ul class="nav-menu" id="section-menu">
                     <li><a href="#about">About</a></li>
                     <li><a href="#skills">Skills</a></li>
                     <li><a href="#experience">Experience</a></li>
-                    <li><a href="#education">Education</a></li>
-                    <li><a href="#expertise">Expertise</a></li>
+                    <li><a href="#work">Work</a></li>
+                    <li><a href="globe.html">Globe ↗</a></li>
                 </ul>
                 <div class="nav-controls">
                     <button class="theme-toggle" id="themeToggle" aria-label="Toggle dark mode">
                         <span class="theme-icon light-icon">☀️</span>
                         <span class="theme-icon dark-icon">🌙</span>
                     </button>
-                    <div class="nav-toggle">
+                    <button class="nav-toggle" aria-label="Open section menu" aria-expanded="false" aria-controls="section-menu">
                         <span></span>
                         <span></span>
                         <span></span>
-                    </div>
+                    </button>
                 </div>
             </div>
-        </nav>
+        </nav><div class="reading-progress" aria-hidden="true"><span id="readingProgress"></span></div>
     </header>
 
     <main>
-        <section class="hero">
+        <section class="hero introduction" aria-labelledby="introduction-title">
             <div id="futuristic-bg"></div>
             <div class="particles"></div>
             <div class="grid-overlay"></div>
-            <div class="container hero-content">
-                <h1 class="hero-title">
-                    <span class="line">SENIOR MANAGER</span>
-                    <span class="line highlight-text bubble-text" id="coreProtection"><span class="bubble-char">C</span><span class="bubble-char">O</span><span class="bubble-char">R</span><span class="bubble-char">E</span><span class="bubble-char space">&nbsp;&nbsp;</span><span class="bubble-char">P</span><span class="bubble-char">R</span><span class="bubble-char">O</span><span class="bubble-char">T</span><span class="bubble-char">E</span><span class="bubble-char">C</span><span class="bubble-char">T</span><span class="bubble-char">I</span><span class="bubble-char">O</span><span class="bubble-char">N</span></span>
-                    <span class="line">TEAM</span>
-                </h1>
-                <p class="hero-subtitle">Senior IT leader with 8+ years of experience in financial crimes technology, application operations, and strategic team management.</p>
+            <div class="container hero-layout"><div class="hero-content">
+                <p class="intro-eyebrow"><span aria-hidden="true"></span> THE PROTECTION ARCHITECT</p>
+                <p class="intro-name">Hello, I’m S B.</p>
+                <h1 class="hero-title" id="introduction-title">I lead teams that keep critical financial systems <span class="intro-accent">resilient.</span></h1>
+                <p class="intro-role">Senior Manager · Core Protection Team <span>CIBC Financial Crimes</span></p>
+                <p class="hero-subtitle">Bringing people, cloud infrastructure, and operational discipline together to protect the systems that matter.</p>
                 <div class="hero-cta">
-                    <a href="#experience" class="cta-button primary">View Experience</a>
-                    <a href="#skills" class="cta-button secondary">Technical Skills</a>
+                    <a href="#experience" class="cta-button primary">Explore My Work <span aria-hidden="true">↗</span></a>
+                    <a href="Resume.pdf" class="cta-button secondary" download>Download Résumé <span aria-hidden="true">↓</span></a>
                 </div>
+                <div class="intro-pillars" aria-label="Areas of focus"><span>Strategic leadership</span><span>Cloud & DevOps</span><span>Operational resilience</span></div>
+            </div>
+                <aside class="architecture" aria-label="My approach to resilience">
+                    <p class="panel-label">HOW I CONNECT THE DOTS</p>
+                    <div class="architecture-map">
+                        <svg viewBox="0 0 320 240" aria-hidden="true"><path d="M160 120 L65 45 M160 120 L255 45 M160 120 L160 210"/></svg>
+                        <div class="architecture-core">◎<strong>Resilience</strong><small>Systems that matter</small></div>
+                        <button class="architecture-node people" data-node="people" aria-pressed="true">People</button>
+                        <button class="architecture-node cloud" data-node="cloud" aria-pressed="false">Cloud</button>
+                        <button class="architecture-node operations" data-node="operations" aria-pressed="false">Operations</button>
+                    </div>
+                    <p id="architectureDescription" aria-live="polite">Shared ownership, mentoring, and cross-functional teams bring the strategy to life.</p>
+                </aside>
             </div>
             <div class="scroll-indicator">
                 <div class="scroll-line"></div>
-                <span>SCROLL TO DISCOVER</span>
+                <span>EXPLORE THE JOURNEY</span>
             </div>
         </section>
 
@@ -73,20 +85,11 @@
                         <p>Currently serving as Senior Manager for Core Protection Team at CIBC since April 2025, I lead strategic initiatives in financial crimes technology and oversee critical protection systems. I specialize in cloud infrastructure, DevOps automation, and strategic team management. I excel at working under pressure and adapting to new situations and challenges to best enhance organizational efficiency.</p>
                         <p>My expertise spans from application migration to OpenShift, implementing CI/CD pipelines, and maintaining high-availability systems while ensuring security standards and SLA compliance in the financial crimes domain.</p>
                     </div>
-                    <div class="about-stats">
-                        <div class="stat">
-                            <span class="stat-number">8+</span>
-                            <span class="stat-label">Years Experience</span>
-                        </div>
-                        <div class="stat">
-                            <span class="stat-number">Senior</span>
-                            <span class="stat-label">Manager Since 2025</span>
-                        </div>
-                        <div class="stat">
-                            <span class="stat-number">Strategic</span>
-                            <span class="stat-label">Leadership Role</span>
-                        </div>
-                    </div>
+                    <div class="snapshot-grid">
+                    <article class="snapshot snapshot-main"><span class="panel-label">TODAY</span><h3>Leading protection.</h3><p>Senior Manager, Core Protection Team at CIBC Financial Crimes.</p><span class="snapshot-tag">Since April 2025</span></article>
+                    <article class="snapshot"><span class="panel-label">THE START</span><h3>Built for mobile.</h3><p>My journey began with iOS development, from interfaces to App Store releases.</p></article>
+                    <article class="snapshot"><span class="panel-label">FOUNDATION</span><h3>Computer science<br>& networking.</h3><p>A foundation in software and the infrastructure behind it.</p></article>
+                    <article class="snapshot snapshot-wide"><span class="panel-label">BEYOND THE ROLE</span><h3>Always exploring technology.</h3><p>From mobile applications to AI-assisted development, curiosity keeps me building.</p></article>
                 </div>
             </div>
         </section>
@@ -97,114 +100,17 @@
                     <h2>Technical Skills</h2>
                     <div class="section-line"></div>
                 </div>
-                <div class="innovations-grid">
-                    <div class="innovation-card">
-                        <div class="card-icon">☁️</div>
-                        <h3>DevOps & Cloud</h3>
-                        <p>Expert in cloud infrastructure, containerization, and automation tools for seamless deployment and operations.</p>
-                        <div class="card-tech">
-                            <span>Jenkins</span>
-                            <span>Docker</span>
-                            <span>OpenShift</span>
-                            <span>Azure</span>
-                        </div>
-                    </div>
-                        <div class="innovation-card">
-                            <div class="card-icon">🤖</div>
-                            <h3>AI Tools</h3>
-                            <p>Applied AI-assisted development and automation to design and build this website and supporting assets.</p>
-                            <div class="card-tech">
-                                <span>AI-assisted coding</span>
-                                <span>Content generation</span>
-                                <span>Design assistance</span>
-                                <span>Automation</span>
-                            </div>
-                        </div>
-                    <div class="innovation-card">
-                        <div class="card-icon">🖥️</div>
-                        <h3>Operating Systems</h3>
-                        <p>Proficient across multiple platforms with expertise in system administration and configuration management.</p>
-                        <div class="card-tech">
-                            <span>Linux</span>
-                            <span>Windows</span>
-                            <span>Mac</span>
-                            <span>Unix</span>
-                        </div>
-                    </div>
-                    <div class="innovation-card">
-                        <div class="card-icon">📱</div>
-                        <h3>Mobile Development</h3>
-                        <p>iOS application development with focus on user experience, performance optimization, and App Store deployment.</p>
-                        <div class="card-tech">
-                            <span>Objective-C</span>
-                            <span>Swift</span>
-                            <span>iOS SDK</span>
-                            <span>Firebase</span>
-                        </div>
-                    </div>
-                    <div class="innovation-card">
-                        <div class="card-icon">📊</div>
-                        <h3>Monitoring & Analysis</h3>
-                        <p>Advanced monitoring, logging, and performance analysis using industry-standard tools and platforms.</p>
-                        <div class="card-tech">
-                            <span>Grafana</span>
-                            <span>Splunk</span>
-                            <span>Dynatrace</span>
-                            <span>ServiceNow</span>
-                        </div>
-                    </div>
+                <p class="section-intro">Explore the connections between the tools I use and the work they support.</p>
+                <div class="skill-filters" role="group" aria-label="Explore skills by focus">
+                    <button data-focus="build" aria-pressed="true">Build</button><button data-focus="deploy" aria-pressed="false">Deploy</button><button data-focus="observe" aria-pressed="false">Observe</button><button data-focus="lead" aria-pressed="false">Lead</button>
                 </div>
+                <p id="skillConnection" class="skill-connection" aria-live="polite">Build → iOS applications, Firebase integrations, and AI-assisted development.</p>
+                <div class="innovations-grid">
+<article class="innovation-card" data-skills="deploy"><div class="line-icon" aria-hidden="true">◇</div><h3>DevOps & Cloud</h3><p>Infrastructure, containerization, and deployment automation.</p><div class="card-tech"><span>Jenkins</span><span>Docker</span><span>OpenShift</span><span>Azure</span></div></article><article class="innovation-card" data-skills="build"><div class="line-icon" aria-hidden="true">⌘</div><h3>AI-assisted development</h3><p>Applied AI tools to build this portfolio and supporting assets.</p><div class="card-tech"><span>Coding</span><span>Content</span><span>Design</span><span>Automation</span></div></article><article class="innovation-card" data-skills="deploy observe"><div class="line-icon" aria-hidden="true">▤</div><h3>Operating Systems</h3><p>System administration and configuration across platforms.</p><div class="card-tech"><span>Linux</span><span>Windows</span><span>Mac</span><span>Unix</span></div></article><article class="innovation-card" data-skills="build"><div class="line-icon" aria-hidden="true">▯</div><h3>Mobile Development</h3><p>Application interfaces, integrations, and App Store releases.</p><div class="card-tech"><span>Objective-C</span><span>Swift</span><span>iOS SDK</span><span>Firebase</span></div></article><article class="innovation-card" data-skills="observe"><div class="line-icon" aria-hidden="true">⌁</div><h3>Monitoring & Analysis</h3><p>Logging, troubleshooting, and application performance analysis.</p><div class="card-tech"><span>Grafana</span><span>Splunk</span><span>Dynatrace</span><span>ServiceNow</span></div></article><article class="innovation-card" data-skills="lead"><div class="line-icon" aria-hidden="true">↗</div><h3>Strategic Leadership</h3><p>Connecting teams, operational priorities, and technology delivery.</p><div class="card-tech"><span>Mentoring</span><span>Service reviews</span><span>Agile delivery</span><span>Incident management</span></div></article></div>
             </div>
         </section>
 
-        <section id="experience" class="projects">
-            <div class="container">
-                <div class="section-header">
-                    <h2>Professional Experience</h2>
-                    <div class="section-line"></div>
-                </div>
-                <div class="projects-showcase">
-                    <div class="project-featured">
-                        <div class="project-image">
-                            <div class="project-placeholder">👔</div>
-                        </div>
-                        <div class="project-info">
-                            <h3>Senior Manager | Core Protection Team</h3>
-                            <p><strong>CIBC Financial Crimes</strong> | April 2025 - Present</p>
-                            <p>Leading strategic initiatives in financial crimes technology, overseeing critical protection systems, and managing cross-functional teams to deliver enterprise-level security solutions.</p>
-                        </div>
-                    </div>
-
-                    <div class="project-featured">
-                        <div class="project-image">
-                            <div class="project-placeholder">👨‍💼</div>
-                        </div>
-                        <div class="project-info">
-                            <h3>Tech Lead | Application Operations</h3>
-                            <p><strong>CIBC Financial Crimes</strong> | Sept 2022 - March 2025</p>
-                            <p>Led service review calls, managed applications/infrastructure, onboarded new technology through PILOT projects, and provided 24x7 on-call support for critical incidents.</p>
-                        </div>
-                    </div>
-
-                    <div class="project-featured">
-                        <div class="project-image">
-                            <div class="project-placeholder">🔧</div>
-                        </div>
-                        <div class="project-info">
-                            <h3>Team Lead | Application Integration</h3>
-                            <p><strong>CIBC Financial Crimes</strong> | Sept 2020 - Aug 2022</p>
-                            <p>Successfully migrated Actimize Actone application to cloud, configured CI/CD pipelines on Jenkins for OpenShift deployment, and led Autosys migration projects.</p>
-                        </div>
-                    </div>
-
-                    <div class="project-featured">
-                        <div class="project-image">
-                            <div class="project-placeholder">🧰</div>
-                        </div>
-                        <div class="project-info">
-                            <h3>Senior Technical Analyst | Branch Support Operations</h3>
-                            <p><strong>CIBC</strong> | Nov 2019 - Sept 2020</p>
-                            <ul>
+        <section id="experience" class="career-section"><div class="container"><div class="section-header"><h2>One journey. Growing impact.</h2><div class="section-line"></div></div><p class="section-intro">From building applications to leading the teams that protect them. Select a chapter to explore. <a href="globe.html" class="atlas-link">Explore the experience globe ↗</a></p><div class="career-layout"><div class="career-stops" role="group" aria-label="Career chapters"><button class="career-stop" data-career="career-0" aria-controls="career-0" aria-pressed="true"><span>April 2025 - Present</span><strong>Senior Manager</strong><small>CIBC Financial Crimes</small></button><button class="career-stop" data-career="career-1" aria-controls="career-1" aria-pressed="false"><span>Sept 2022 - March 2025</span><strong>Tech Lead</strong><small>CIBC Financial Crimes</small></button><button class="career-stop" data-career="career-2" aria-controls="career-2" aria-pressed="false"><span>Sept 2020 - Aug 2022</span><strong>Team Lead</strong><small>CIBC Financial Crimes</small></button><button class="career-stop" data-career="career-3" aria-controls="career-3" aria-pressed="false"><span>Nov 2019 - Sept 2020</span><strong>Senior Technical Analyst</strong><small>CIBC</small></button><button class="career-stop" data-career="career-4" aria-controls="career-4" aria-pressed="false"><span>May 2018 – Nov 2019</span><strong>Technical Analyst</strong><small>CIBC</small></button><button class="career-stop" data-career="career-5" aria-controls="career-5" aria-pressed="false"><span>Sept 2016 - May 2017</span><strong>Technical Analyst Co-op</strong><small>CIBC</small></button><button class="career-stop" data-career="career-6" aria-controls="career-6" aria-pressed="false"><span>June 2016 - Nov 2017</span><strong>iOS Developer</strong><small>HOTSPOT LIFE</small></button><button class="career-stop" data-career="career-7" aria-controls="career-7" aria-pressed="false"><span>May 2014 - Nov 2015</span><strong>Jr. iOS Developer</strong><small>IAPP TECHNOLOGIES, Mohali, Punjab, India</small></button></div><div class="career-details"><article id="career-0" class="career-panel" ><span class="panel-label">CHAPTER 08</span><h3>Senior Manager | Core Protection Team</h3><p class="career-meta">CIBC Financial Crimes · April 2025 - Present</p><p>Leading strategic initiatives in financial crimes technology, overseeing critical protection systems, and managing cross-functional teams to deliver enterprise-level security solutions.</p></article><article id="career-1" class="career-panel" hidden><span class="panel-label">CHAPTER 07</span><h3>Tech Lead | Application Operations</h3><p class="career-meta">CIBC Financial Crimes · Sept 2022 - March 2025</p><p>Led service review calls, managed applications/infrastructure, onboarded new technology through PILOT projects, and provided 24x7 on-call support for critical incidents.</p></article><article id="career-2" class="career-panel" hidden><span class="panel-label">CHAPTER 06</span><h3>Team Lead | Application Integration</h3><p class="career-meta">CIBC Financial Crimes · Sept 2020 - Aug 2022</p><p>Successfully migrated Actimize Actone application to cloud, configured CI/CD pipelines on Jenkins for OpenShift deployment, and led Autosys migration projects.</p></article><article id="career-3" class="career-panel" hidden><span class="panel-label">CHAPTER 05</span><h3>Senior Technical Analyst | Branch Support Operations</h3><p class="career-meta">CIBC · Nov 2019 - Sept 2020</p><ul>
                                 <li>Manage various CIBC production servers supporting CIBC branches by monitoring, performing data backups and troubleshooting.</li>
                                 <li>Investigate, escalate, and resolve technical problems encountered by users to ensure continuation of the working environment.</li>
                                 <li>Review, approve and implement technical project plans like server and computer refreshes and more.</li>
@@ -213,18 +119,7 @@
                                 <li>Configure newly installed servers by installing required patches and preparing production server for the branch level use.</li>
                                 <li>Work with Bell to provide 24x7 network connectivity to CIBC branches and to other CIBC line of businesses. Communicate with ABM vendor HP and NCR to support ABM machines and provide them with network support for ABM machines.</li>
                                 <li>Participate with senior incident management team to develop resolving plans for chronic issues. Develop and demonstrate service-oriented skills while working with multiple lines of business.</li>
-                            </ul>
-                        </div>
-                    </div>
-
-                    <div class="project-featured">
-                        <div class="project-image">
-                            <div class="project-placeholder">🔧</div>
-                        </div>
-                        <div class="project-info">
-                            <h3>Technical Analyst | Branch Support Operations</h3>
-                            <p><strong>CIBC</strong> | May 2018 – Nov 2019</p>
-                            <ul>
+                            </ul></article><article id="career-4" class="career-panel" hidden><span class="panel-label">CHAPTER 04</span><h3>Technical Analyst | Branch Support Operations</h3><p class="career-meta">CIBC · May 2018 – Nov 2019</p><ul>
                                 <li>Manage various CIBC production servers supporting CIBC branches by monitoring, performing data backups and troubleshooting.</li>
                                 <li>Investigate, escalate, and resolve technical problems encountered by users to ensure continuation of the working environment.</li>
                                 <li>Review, approve and implement technical project plans like server and computer refreshes and more.</li>
@@ -232,50 +127,17 @@
                                 <li>Identify and verify system and application events, escalate to technical specialist, and provide support as required.</li>
                                 <li>Configure newly installed servers by installing required patches and preparing production server for the branch level use.</li>
                                 <li>Work with Bell to provide 24x7 network connectivity to CIBC branches and to other CIBC line of businesses. Communicate with ABM vendor HP and NCR to support ABM machines and provide them with network support for ABM machines.</li>
-                            </ul>
-                        </div>
-                    </div>
-
-                    <div class="project-featured">
-                        <div class="project-image">
-                            <div class="project-placeholder">🛠️</div>
-                        </div>
-                        <div class="project-info">
-                            <h3>Technical Analyst Co-op | Branch Support Operations</h3>
-                            <p><strong>CIBC</strong> | Sept 2016 - May 2017</p>
-                            <ul>
+                            </ul></article><article id="career-5" class="career-panel" hidden><span class="panel-label">CHAPTER 03</span><h3>Technical Analyst Co-op | Branch Support Operations</h3><p class="career-meta">CIBC · Sept 2016 - May 2017</p><ul>
                                 <li>Configure newly installed servers by installing required patches and preparing production server for the branch level use.</li>
                                 <li>Identify and verify system and application events, escalate to technical specialist, and provide support as required.</li>
                                 <li>Investigate, escalate, and resolve technical problems encountered by users to ensure continuation of the working environment.</li>
-                            </ul>
-                        </div>
-                    </div>
-
-                    <div class="project-featured">
-                        <div class="project-image">
-                            <div class="project-placeholder">📱</div>
-                        </div>
-                        <div class="project-info">
-                            <h3>iOS Developer | Hotspot Life (Startup)</h3>
-                            <p><strong>HOTSPOT LIFE</strong> | June 2016 - Nov 2017</p>
-                            <ul>
+                            </ul></article><article id="career-6" class="career-panel" hidden><span class="panel-label">CHAPTER 02</span><h3>iOS Developer | Hotspot Life (Startup)</h3><p class="career-meta">HOTSPOT LIFE · June 2016 - Nov 2017</p><ul>
                                 <li>Develop and design UI of application using Objective-C.</li>
                                 <li>Manage database on Firebase.</li>
                                 <li>Manage Apple developer account and publish the application on store.</li>
                                 <li>Implemented Maps, Push notification and created a chat feature using data listeners on the Firebase database.</li>
                                 <li>Gather information about APIs available for the app functionality.</li>
-                            </ul>
-                        </div>
-                    </div>
-
-                    <div class="project-featured">
-                        <div class="project-image">
-                            <div class="project-placeholder">📱</div>
-                        </div>
-                        <div class="project-info">
-                            <h3>Jr. iOS Developer | IAPP Technologies</h3>
-                            <p><strong>IAPP TECHNOLOGIES, Mohali, Punjab, India</strong> | May 2014 - Nov 2015</p>
-                            <ul>
+                            </ul></article><article id="career-7" class="career-panel" hidden><span class="panel-label">CHAPTER 01</span><h3>Jr. iOS Developer | IAPP Technologies</h3><p class="career-meta">IAPP TECHNOLOGIES, Mohali, Punjab, India · May 2014 - Nov 2015</p><ul>
                                 <li>Designing and building mobile applications for Apple’s iOS platform.</li>
                                 <li>Collaborating with the design team to define app features.</li>
                                 <li>Ensuring quality and performance of the application to specifications.</li>
@@ -283,26 +145,8 @@
                                 <li>Fixing application bugs before the final release.</li>
                                 <li>Publishing application on App Store.</li>
                                 <li>Maintaining the code and automation of the application.</li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <section id="promotion" class="promotion">
-            <div class="container">
-                <div class="section-header">
-                    <h2>Promotion Timeline</h2>
-                    <div class="section-line"></div>
-                </div>
-                <div class="chart-wrapper" style="max-width:900px;margin:0 auto;padding:20px 0;">
-                    <canvas id="promotionChart" style="width:100%;height:260px;max-height:260px;"></canvas>
-                    <div id="promotionLegend" class="promotion-legend" style="margin-top:12px;display:flex;flex-wrap:wrap;gap:8px;justify-content:center"></div>
-                </div>
-            </div>
-        </section>
-
+                            </ul></article></div></div></div></section>
+<section id="work" class="work-section"><div class="container"><div class="section-header"><h2>Work behind the systems.</h2><div class="section-line"></div></div><p class="section-intro">Selected examples from my application integration and operations roles.</p><div class="work-grid"><article class="work-card"><span class="work-number">01</span><span class="panel-label">Cloud migration</span><h3>Moving Actimize Actone to the cloud</h3><p class="work-tools">OpenShift · Jenkins · Application integration</p><details><summary>Explore the story <span aria-hidden="true">↗</span></summary><dl><dt>Challenge</dt><dd>An enterprise application needed to move to a cloud platform.</dd><dt>Approach</dt><dd>Led the application migration and configured Jenkins pipelines for OpenShift deployments.</dd><dt>Outcome</dt><dd>Actimize Actone migrated to the cloud, connecting application integration with deployment automation.</dd></dl></details></article><article class="work-card"><span class="work-number">02</span><span class="panel-label">Deployment automation</span><h3>Connecting code to operations</h3><p class="work-tools">CI/CD · Jenkins · Autosys</p><details><summary>Explore the story <span aria-hidden="true">↗</span></summary><dl><dt>Challenge</dt><dd>Application delivery required coordinated infrastructure and deployment processes.</dd><dt>Approach</dt><dd>Configured CI/CD pipelines on Jenkins for OpenShift deployment and led Autosys migration projects.</dd><dt>Outcome</dt><dd>Established deployment pipelines and supported the transition of scheduling infrastructure.</dd></dl></details></article><article class="work-card"><span class="work-number">03</span><span class="panel-label">Critical operations</span><h3>Keeping essential systems running</h3><p class="work-tools">Service reviews · Monitoring · Incident response</p><details><summary>Explore the story <span aria-hidden="true">↗</span></summary><dl><dt>Challenge</dt><dd>Critical financial crimes applications required ongoing operational support and incident response.</dd><dt>Approach</dt><dd>Led service reviews, managed applications and infrastructure, and provided 24×7 on-call support.</dd><dt>Outcome</dt><dd>Supported critical incident resolution and the operational oversight of essential applications.</dd></dl></details></article></div></div></section>
         <section id="education" class="lab">
             <div class="container">
                 <div class="section-header">
@@ -358,28 +202,28 @@
                     </div>
                     <div class="contact-methods">
                         <div class="contact-method">
-                            <div class="method-icon">🏗️</div>
+                            <div class="method-icon line-icon" aria-hidden="true">◇</div>
                             <div class="method-info">
                                 <h3>System Architecture & Design</h3>
                                 <p>Enterprise-level system design and infrastructure planning</p>
                             </div>
                         </div>
                         <div class="contact-method">
-                            <div class="method-icon">⚡</div>
+                            <div class="method-icon line-icon" aria-hidden="true">◇</div>
                             <div class="method-info">
                                 <h3>Performance Optimization</h3>
                                 <p>Application and infrastructure performance tuning</p>
                             </div>
                         </div>
                         <div class="contact-method">
-                            <div class="method-icon">🔒</div>
+                            <div class="method-icon line-icon" aria-hidden="true">◇</div>
                             <div class="method-info">
                                 <h3>Security Best Practices</h3>
                                 <p>ITIL and SRE processes, security standards compliance</p>
                             </div>
                         </div>
                         <div class="contact-method">
-                            <div class="method-icon">👥</div>
+                            <div class="method-icon line-icon" aria-hidden="true">◇</div>
                             <div class="method-info">
                                 <h3>Team Leadership</h3>
                                 <p>Mentoring, training, and agile project management</p>
@@ -396,7 +240,7 @@
             <div class="footer-content">
                 <div class="footer-section">
                     <h3>S<span class="highlight">B</span></h3>
-                    <p>Tech Lead & DevOps Expert</p>
+                    <p>Technology leadership · Operational resilience</p>
                 </div>
                 <div class="footer-section">
                     <h4>Quick Links</h4>
@@ -404,7 +248,7 @@
                         <li><a href="#about">About</a></li>
                         <li><a href="#skills">Skills</a></li>
                         <li><a href="#experience">Experience</a></li>
-                        <li><a href="#education">Education</a></li>
+                        <li><a href="#work">Work</a></li>
                         <li><a href="#expertise">Expertise</a></li>
                     </ul>
                 </div>
@@ -419,108 +263,14 @@
                 </div>
             </div>
             <div class="footer-bottom">
-                <p>&copy; 2024 S B. Professional Portfolio.</p>
+                <p>&copy; 2026 S B. Professional Portfolio.</p>
                 <p style="font-size:12px;color:var(--accent-text);margin-top:6px;">This website was developed using AI tools only.</p>
             </div>
         </div>
     </footer>
 
-    <!-- Background Music -->
-    <audio id="bgMusic" loop autoplay>
-        <source src="background.mp3" type="audio/mpeg">
-    </audio>
-    <button class="music-toggle playing" id="musicToggle" aria-label="Toggle music">
-        <span class="music-icon music-off">🔇</span>
-        <span class="music-icon music-on">🎵</span>
-    </button>
-
-    <style>
-        .music-toggle {
-            position: fixed;
-            bottom: 20px;
-            left: 20px;
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
-            background: rgba(0, 0, 0, 0.7);
-            border: 2px solid rgba(0, 255, 255, 0.5);
-            cursor: pointer;
-            z-index: 1001;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: all 0.3s ease;
-        }
-
-        .music-toggle:hover {
-            background: rgba(0, 255, 255, 0.2);
-            border-color: #00ffff;
-            transform: scale(1.1);
-        }
-
-        .music-icon {
-            font-size: 1.5rem;
-            display: none;
-        }
-
-        .music-toggle.playing .music-on {
-            display: block;
-            animation: pulse 1s ease infinite;
-        }
-
-        .music-toggle:not(.playing) .music-off {
-            display: block;
-        }
-
-        @keyframes pulse {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.2); }
-        }
-    </style>
-
-    <script>
-        // Background music control
-        (function() {
-            const music = document.getElementById('bgMusic');
-            const toggle = document.getElementById('musicToggle');
-            let hasInteracted = false;
-
-            // Try to play on load
-            music.play().then(() => {
-                toggle.classList.add('playing');
-            }).catch(() => {
-                // Autoplay blocked, will play on first interaction
-                toggle.classList.remove('playing');
-            });
-
-            // Play on first user interaction if autoplay was blocked
-            function playOnInteraction() {
-                if (!hasInteracted && music.paused) {
-                    music.play().then(() => {
-                        toggle.classList.add('playing');
-                    });
-                    hasInteracted = true;
-                }
-            }
-
-            document.addEventListener('click', playOnInteraction, { once: true });
-            document.addEventListener('keydown', playOnInteraction, { once: true });
-            document.addEventListener('scroll', playOnInteraction, { once: true });
-
-            toggle.addEventListener('click', (e) => {
-                e.stopPropagation();
-                hasInteracted = true;
-                if (music.paused) {
-                    music.play();
-                    toggle.classList.add('playing');
-                } else {
-                    music.pause();
-                    toggle.classList.remove('playing');
-                }
-            });
-        })();
-    </script>
-
+    <audio id="bgMusic" loop preload="none"><source src="background.mp3" type="audio/mpeg"></audio>
+    <details class="atmosphere"><summary>◌ <span>Atmosphere</span></summary><div class="atmosphere-panel"><p class="panel-label">MAKE YOURSELF AT HOME</p><button id="appearanceToggle" type="button">Theme: dark</button><button id="motionToggle" type="button" aria-pressed="false">Motion: on</button><button id="soundToggle" type="button" aria-pressed="false">Sound: off</button><p id="soundStatus" aria-live="polite"></p></div></details>
     <!-- Mascot Coming Out of Hole -->
     <div class="mascot-hole" id="mascotHole">
         <div class="hole-dirt"></div>
@@ -810,7 +560,7 @@
     </script>
 
     <script src="futuristic-bg.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="script.js"></script>
+    <script src="portfolio.js"></script>
 </body>
 </html>

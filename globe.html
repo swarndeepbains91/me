@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Explore S B’s career and education on an interactive 3D globe.">
+<title>S B — Experience Atlas</title>
+<link rel="stylesheet" href="globe.css">
+<script type="importmap">{"imports":{"three":"./assets/globe/vendor/three.module.js","three/addons/controls/OrbitControls.js":"./assets/globe/vendor/OrbitControls.js"}}</script>
+</head>
+<body>
+<header class="atlas-header"><a class="brand" href="index.html" aria-label="S B portfolio">S<span>B</span></a><a class="back-link" href="index.html#experience">← Back to portfolio</a><span class="header-label">EXPERIENCE ATLAS / 01</span></header>
+<main>
+<div class="atlas-heading"><div><p class="eyebrow">A JOURNEY THROUGH PEOPLE, PLACES & SYSTEMS</p><h1>A world of <em>experience.</em></h1></div><p class="heading-note">From mobile interfaces to the systems that protect them. Explore the places and chapters behind my career.</p></div>
+<div class="atlas-layout">
+<section class="globe-stage" aria-label="Interactive world globe">
+<div class="stage-top"><span class="live-dot"></span><span>CAREER & EDUCATION</span><span id="mapState">INITIALIZING WORLD</span></div>
+<div id="globeViewport" tabindex="0" role="region" aria-label="3D globe. Drag to rotate, scroll or pinch to zoom. Use the location buttons to select a place, or arrow keys to rotate."><div id="globeLoading" role="status">Building your world…</div><div id="globeLabels" aria-hidden="true"></div><div id="globeTooltip" role="status" hidden></div></div>
+<div class="globe-toolbar" aria-label="Globe controls"><button id="rotateToggle" aria-pressed="false">↻ Auto rotate</button><button id="routeToggle" aria-pressed="true">⌁ Connections</button><button id="zoomIn" aria-label="Zoom in">＋</button><button id="zoomOut" aria-label="Zoom out">−</button><button id="resetView">◎ Reset view</button></div>
+<div class="stage-bottom"><span>DRAG TO ORBIT · SCROLL TO ZOOM</span><span>ESC TO STOP TOUR</span></div>
+</section>
+<aside class="experience-sidebar" aria-label="Explore career chapters">
+<div class="sidebar-heading"><p class="eyebrow">YOUR FLIGHT PLAN</p><h2>Explore the journey</h2><p>Choose a place or a career chapter.</p></div>
+<div class="location-selector" id="locationSelector" role="group" aria-label="Locations"></div>
+<div class="chapter-filter" role="group" aria-label="Filter chapters"><button data-filter="all" aria-pressed="true">All</button><button data-filter="work" aria-pressed="false">Work</button><button data-filter="education" aria-pressed="false">Education</button></div>
+<div id="chapterList" class="chapter-list"></div>
+<button id="tourToggle" class="tour-button" aria-pressed="false">▶ Play career tour</button>
+<p class="location-note">Pins mark city centers. Connections illustrate the career journey. Education without a confirmed city remains available without a pin.</p>
+</aside>
+</div>
+<section id="chapterDetail" class="chapter-detail" aria-live="polite"></section>
+<div class="atlas-footer"><span>2014 → PRESENT <span class="footer-divider">/</span> BUILD · DEPLOY · OBSERVE · LEAD</span><a href="https://www.naturalearthdata.com/about/terms-of-use/" target="_blank" rel="noopener noreferrer">Map data: Natural Earth ↗</a></div>
+</main>
+<noscript><p class="no-script">Enable JavaScript to explore the globe. <a href="index.html#experience">Read the full career journey here.</a></p></noscript>
+<script src="globe.js" type="module"></script>
+</body></html>
