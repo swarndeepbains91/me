@@ -21,11 +21,13 @@ const reduced = matchMedia('(prefers-reduced-motion: reduce)');
 let selected = chapters[0], filter = 'all', placeFilter = null, globe = null, tourController = null;
 const cityView = createCityView();
 const tourChapters = [...chapters].filter(chapter=>chapter.type==='work').reverse();
-function stopTour() {
+function stopTour(keepCity = false) {
     const returnToOrbit = Boolean(tourController) || cityView.visible;
     tourController?.abort(); tourController = null;
-    cityView.hide(); globe?.cancelFlight(); globe?.setTourMode(false);
-    if (returnToOrbit && selected.location) globe?.fly(selected.location, 3.7, 1400);
+    cityView.cancelTravel();
+    if (!keepCity) cityView.hide();
+    globe?.cancelFlight(); globe?.setTourMode(cityView.visible);
+    if (!keepCity && returnToOrbit && selected.location) globe?.fly(selected.location, 3.7, 1400);
     $('tourToggle').setAttribute('aria-pressed', 'false');
     $('tourToggle').textContent = '▶ Play career tour';
     $('globeViewport').dataset.tourPhase = 'idle';
@@ -55,25 +57,26 @@ async function playTour() {
             if (signal.aborted) return;
             const place = locations.find(location => location.id === chapter.location);
             selectChapter(chapter, false);
-            setTourPhase('approach', `Flying to ${place.name} · ${index + 1}/${tourChapters.length}`);
-            globe?.fly(place.id, 3.25, 1400);
-            await waitForTour(reduced.matches || !globe ? 100 : 1500, signal);
-            setTourPhase('descend', `Zooming into ${place.name}`);
-            globe?.fly(place.id, 1.65, 1800);
-            await waitForTour(reduced.matches || !globe ? 100 : 1900, signal);
+            if (index === 0 && !cityView.visible) {
+                setTourPhase('approach', `Flying to ${place.name}`);
+                globe?.fly(place.id, 3.25, 1400);
+                await waitForTour(reduced.matches || !globe ? 100 : 1500, signal);
+                setTourPhase('descend', `Zooming into ${place.name}`);
+                globe?.fly(place.id, 1.65, 1800);
+                await waitForTour(reduced.matches || !globe ? 100 : 1900, signal);
+                setTourPhase('city', `${place.name} · ${chapter.title}`);
+                cityView.show(place, reduced.matches);
+                await waitForTour(reduced.matches ? 100 : 2300, signal);
+            } else {
+                setTourPhase('travel', `Flying to ${place.name} · ${index + 1}/${tourChapters.length}`);
+                await cityView.travelTo(place, reduced.matches, signal);
+            }
             setTourPhase('city', `${place.name} · ${chapter.title}`);
-            cityView.show(place, reduced.matches);
-            await waitForTour(reduced.matches ? 5500 : 7500, signal);
-            setTourPhase('depart', `Leaving ${place.name}`);
-            cityView.pullBack(reduced.matches);
-            await waitForTour(reduced.matches ? 100 : 1100, signal);
-            cityView.hide();
-            globe?.fly(place.id, 3.7, 1400);
-            await waitForTour(reduced.matches || !globe ? 100 : 1500, signal);
+            await waitForTour(5500, signal);
         }
-        if (tourController === controller) stopTour();
+        if (tourController === controller) stopTour(true);
     } catch (error) {
-        if (error.name !== 'AbortError') { console.error(error); if (tourController === controller) stopTour(); }
+        if (error.name !== 'AbortError') { console.error(error); if (tourController === controller) stopTour(true); }
     }
 }
 function renderList() {
@@ -113,7 +116,7 @@ document.querySelectorAll('[data-filter]').forEach(button=>button.addEventListen
     const chapter=chapters.find(c=>(filter==='all'||c.type===filter)&&(!placeFilter||c.location===placeFilter));
     if(chapter) selectChapter(chapter);else {$('chapterList').textContent='No chapters in this category at this location.';}
 }));
-$('tourToggle').addEventListener('click', () => { if (tourController) stopTour(); else playTour(); });
+$('tourToggle').addEventListener('click', () => { if (tourController) stopTour(true); else playTour(); });
 $('openCityMap').addEventListener('click', () => {
     stopTour();
     const place = locations.find(location => location.id === selected.location);
@@ -124,7 +127,7 @@ $('closeCityMap').addEventListener('click', () => {
     if (selected.location) globe?.fly(selected.location, 3.7, 1400);
     $('openCityMap').focus();
 });
-document.addEventListener('keydown',event=>{if(event.key==='Escape')stopTour();});
+document.addEventListener('keydown',event=>{if(event.key==='Escape')stopTour(true);});
 selectChapter(selected);
 async function createGlobe() {
     const THREE=await import('three');const {OrbitControls}=await import('three/addons/controls/OrbitControls.js');
