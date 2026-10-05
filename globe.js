@@ -1,3 +1,4 @@
+import { createCityView } from './globe-city.js';
 const locations = [
     {id:'toronto',name:'Toronto',country:'Canada',lat:43.6532,lon:-79.3832},
     {id:'scarborough',name:'Scarborough',country:'Canada',lat:43.7764,lon:-79.2318},
@@ -17,9 +18,64 @@ const chapters = [
 ];
 const $ = id => document.getElementById(id);
 const reduced = matchMedia('(prefers-reduced-motion: reduce)');
-let selected = chapters[0], filter = 'all', placeFilter = null, globe = null, tourTimer = null, tourIndex = 0;
+let selected = chapters[0], filter = 'all', placeFilter = null, globe = null, tourController = null;
+const cityView = createCityView();
 const tourChapters = [...chapters].filter(chapter=>chapter.type==='work').reverse();
-function stopTour() { clearTimeout(tourTimer); tourTimer=null; $('tourToggle').setAttribute('aria-pressed','false'); $('tourToggle').textContent='▶ Play career tour'; }
+function stopTour() {
+    const returnToOrbit = Boolean(tourController) || cityView.visible;
+    tourController?.abort(); tourController = null;
+    cityView.hide(); globe?.cancelFlight(); globe?.setTourMode(false);
+    if (returnToOrbit && selected.location) globe?.fly(selected.location, 3.7, 1400);
+    $('tourToggle').setAttribute('aria-pressed', 'false');
+    $('tourToggle').textContent = '▶ Play career tour';
+    $('globeViewport').dataset.tourPhase = 'idle';
+}
+function waitForTour(milliseconds, signal) {
+    return new Promise((resolve, reject) => {
+        if (signal.aborted) { reject(new DOMException('Tour stopped', 'AbortError')); return; }
+        const cancel = () => { clearTimeout(timer); reject(new DOMException('Tour stopped', 'AbortError')); };
+        const timer = setTimeout(() => { signal.removeEventListener('abort', cancel); resolve(); }, milliseconds);
+        signal.addEventListener('abort', cancel, { once: true });
+    });
+}
+function setTourPhase(phase, label) {
+    $('globeViewport').dataset.tourPhase = phase;
+    $('tourToggle').textContent = `■ ${label}`;
+}
+async function playTour() {
+    const controller = new AbortController(); tourController = controller;
+    const signal = controller.signal;
+    filter = 'work'; placeFilter = null;
+    document.querySelectorAll('[data-filter]').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.filter === 'work')));
+    $('tourToggle').setAttribute('aria-pressed', 'true');
+    $('globeViewport').scrollIntoView({ behavior: reduced.matches ? 'auto' : 'smooth', block: 'center' });
+    globe?.setTourMode(true);
+    try {
+        for (const [index, chapter] of tourChapters.entries()) {
+            if (signal.aborted) return;
+            const place = locations.find(location => location.id === chapter.location);
+            selectChapter(chapter, false);
+            setTourPhase('approach', `Flying to ${place.name} · ${index + 1}/${tourChapters.length}`);
+            globe?.fly(place.id, 3.25, 1400);
+            await waitForTour(reduced.matches || !globe ? 100 : 1500, signal);
+            setTourPhase('descend', `Zooming into ${place.name}`);
+            globe?.fly(place.id, 1.65, 1800);
+            await waitForTour(reduced.matches || !globe ? 100 : 1900, signal);
+            setTourPhase('city', `${place.name} · ${chapter.title}`);
+            cityView.show(place, reduced.matches);
+            await waitForTour(reduced.matches ? 5500 : 7500, signal);
+            setTourPhase('depart', `Leaving ${place.name}`);
+            cityView.pullBack(reduced.matches);
+            await waitForTour(reduced.matches ? 100 : 1100, signal);
+            cityView.hide();
+            globe?.fly(place.id, 3.7, 1400);
+            await waitForTour(reduced.matches || !globe ? 100 : 1500, signal);
+        }
+        if (tourController === controller) stopTour();
+    } catch (error) {
+        if (error.name !== 'AbortError') { console.error(error); if (tourController === controller) stopTour(); }
+    }
+}
 function renderList() {
     const visible = chapters.filter(c=>(filter==='all'||c.type===filter)&&(!placeFilter||c.location===placeFilter));
     $('chapterList').replaceChildren(...visible.map(chapter=>{
@@ -39,6 +95,7 @@ function renderList() {
 }
 function selectChapter(chapter, fly=true) {
     selected=chapter;renderList();
+    $('openCityMap').disabled = !chapter.location;
     const place=locations.find(l=>l.id===chapter.location);
     $('chapterDetail').innerHTML=`<div><p class="eyebrow">${chapter.type==='work'?'CAREER CHAPTER':'EDUCATION'} / ${place?place.name.toUpperCase()+' · '+place.country.toUpperCase():'PUNJAB · INDIA'}</p><h2>${chapter.title}<br>${chapter.subtitle}</h2><div class="detail-meta">${chapter.company}<br>${chapter.date}</div></div><div class="detail-copy"><p>${chapter.copy}</p><div class="detail-tags">${chapter.tags.map(tag=>`<span>${tag}</span>`).join('')}</div></div>`;
     if(globe) { globe.select(chapter.location,fly); }
@@ -56,12 +113,16 @@ document.querySelectorAll('[data-filter]').forEach(button=>button.addEventListen
     const chapter=chapters.find(c=>(filter==='all'||c.type===filter)&&(!placeFilter||c.location===placeFilter));
     if(chapter) selectChapter(chapter);else {$('chapterList').textContent='No chapters in this category at this location.';}
 }));
-$('tourToggle').addEventListener('click',()=>{
-    if(tourTimer!==null) {stopTour();return;}
-    filter='work';placeFilter=null;document.querySelectorAll('[data-filter]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.filter==='work')));
-    tourIndex=0;$('tourToggle').setAttribute('aria-pressed','true');$('tourToggle').textContent='■ Stop career tour';
-    function step() {selectChapter(tourChapters[tourIndex]);tourIndex++;if(tourIndex<tourChapters.length)tourTimer=setTimeout(step,5500);else tourTimer=setTimeout(stopTour,5500);}
-    step();
+$('tourToggle').addEventListener('click', () => { if (tourController) stopTour(); else playTour(); });
+$('openCityMap').addEventListener('click', () => {
+    stopTour();
+    const place = locations.find(location => location.id === selected.location);
+    if (place) { cityView.show(place, reduced.matches); globe?.setTourMode(true); }
+});
+$('closeCityMap').addEventListener('click', () => {
+    stopTour();
+    if (selected.location) globe?.fly(selected.location, 3.7, 1400);
+    $('openCityMap').focus();
 });
 document.addEventListener('keydown',event=>{if(event.key==='Escape')stopTour();});
 selectChapter(selected);
@@ -93,11 +154,11 @@ async function createGlobe() {
     function addRoute(from,to,height) {const a=vector(from.lat,from.lon),b=vector(to.lat,to.lon);const curvePoints=[];for(let i=0;i<=100;i++){const t=i/100;curvePoints.push(a.clone().lerp(b,t).normalize().multiplyScalar(1.025+Math.sin(t*Math.PI)*height));}const curve=new THREE.CatmullRomCurve3(curvePoints);routes.add(new THREE.Mesh(new THREE.TubeGeometry(curve,120,.002,6,false),new THREE.MeshBasicMaterial({color:0x6be2c5,transparent:true,opacity:.75})));const traveler=new THREE.Mesh(new THREE.SphereGeometry(.008,12,8),new THREE.MeshBasicMaterial({color:0xd3fff1}));routes.add(traveler);travelers.push({traveler,curve});}
     addRoute(locations[2],locations[1],.42);addRoute(locations[1],locations[0],.1);
     let flight=null,selectedPlace=selected.location,autoRotate=false,frame=null,visible=true,lastTime=0;
-    function flyTo(place,distance=3.25) {const destination=vector(place.lat,place.lon,distance);if(reduced.matches){camera.position.copy(destination);controls.update();}else flight={from:camera.position.clone().normalize(),rotation:new THREE.Quaternion().setFromUnitVectors(camera.position.clone().normalize(),destination.clone().normalize()),radius:camera.position.length(),distance,start:performance.now()};}
+    function flyTo(place,distance=3.25,duration=1400) {const destination=vector(place.lat,place.lon,distance);if(reduced.matches){camera.position.copy(destination);controls.update();}else flight={from:camera.position.clone().normalize(),rotation:new THREE.Quaternion().setFromUnitVectors(camera.position.clone().normalize(),destination.clone().normalize()),radius:camera.position.length(),distance,duration,start:performance.now()};}
     function select(id,fly=true){selectedPlace=id;for(const m of markers)m.marker.material.color.set(m.place.id===id?0x6be2c5:0x69b5ff);const place=locations.find(l=>l.id===id);if(place&&fly)flyTo(place);}
     function resize(){const rect=viewport.getBoundingClientRect();renderer.setSize(rect.width,rect.height);camera.aspect=rect.width/rect.height;camera.updateProjectionMatrix();draw(performance.now());}new ResizeObserver(resize).observe(viewport);
     function projectLabels(){for(const {label,place,position} of labels){const point=position.clone().project(camera);const front=position.dot(camera.position)>1.04;const crowded=place.id==='scarborough'&&selectedPlace!=='scarborough'&&camera.position.length()>2.5;label.hidden=!front||crowded||Math.abs(point.x)>1||Math.abs(point.y)>1;label.classList.toggle('selected',place.id===selectedPlace);label.style.left=`${(point.x*.5+.5)*viewport.clientWidth}px`;label.style.top=`${(-point.y*.5+.5)*viewport.clientHeight}px`;}}
-    function draw(now){if(flight){const t=Math.min(1,(now-flight.start)/1400);const ease=t*t*(3-2*t);camera.position.copy(flight.from).applyQuaternion(new THREE.Quaternion().slerpQuaternions(new THREE.Quaternion(),flight.rotation,ease)).multiplyScalar(THREE.MathUtils.lerp(flight.radius,flight.distance,ease));if(t===1)flight=null;}controls.autoRotate=autoRotate&&!flight&&!reduced.matches;controls.update();for(const {ring,place} of markers){const wave=reduced.matches?0:((now/1800)%1);ring.scale.setScalar(place.id===selectedPlace?1+wave*1.8:1);ring.material.opacity=place.id===selectedPlace?(.8-wave*.55):.3;}for(const {traveler,curve} of travelers)traveler.position.copy(curve.getPointAt(reduced.matches?.5:(now/6500)%1));renderer.render(scene,camera);projectLabels();}
+    function draw(now){if(flight){const t=Math.min(1,(now-flight.start)/flight.duration);const ease=t*t*(3-2*t);camera.position.copy(flight.from).applyQuaternion(new THREE.Quaternion().slerpQuaternions(new THREE.Quaternion(),flight.rotation,ease)).multiplyScalar(THREE.MathUtils.lerp(flight.radius,flight.distance,ease));if(t===1)flight=null;}controls.autoRotate=autoRotate&&!flight&&!reduced.matches;controls.update();for(const {ring,place} of markers){const wave=reduced.matches?0:((now/1800)%1);ring.scale.setScalar(place.id===selectedPlace?1+wave*1.8:1);ring.material.opacity=place.id===selectedPlace?(.8-wave*.55):.3;}for(const {traveler,curve} of travelers)traveler.position.copy(curve.getPointAt(reduced.matches?.5:(now/6500)%1));renderer.render(scene,camera);projectLabels();}
     function tick(now){frame=null;if(!visible)return;if(now-lastTime>1000/40){draw(now);lastTime=now;}if(!reduced.matches||flight)frame=requestAnimationFrame(tick);}
     function wake(){if(frame===null&&visible)frame=requestAnimationFrame(tick);}
     controls.addEventListener('change',()=>{if(reduced.matches) {renderer.render(scene,camera);projectLabels();}});
@@ -109,13 +170,18 @@ async function createGlobe() {
     function hitAt(event){const rect=renderer.domElement.getBoundingClientRect();pointer.set((event.clientX-rect.left)/rect.width*2-1,-(event.clientY-rect.top)/rect.height*2+1);raycaster.setFromCamera(pointer,camera);return raycaster.intersectObjects([earth,...markers.map(m=>m.hit)])[0]?.object.userData.place;}
     renderer.domElement.addEventListener('pointerdown',event=>{pointerStart=[event.clientX,event.clientY];});renderer.domElement.addEventListener('pointerup',event=>{if(!pointerStart||Math.hypot(event.clientX-pointerStart[0],event.clientY-pointerStart[1])>6)return;const id=hitAt(event);if(id)selectPlace(id);});
     renderer.domElement.addEventListener('pointermove',event=>{const id=hitAt(event);renderer.domElement.style.cursor=id?'pointer':'grab';$('globeTooltip').hidden=!id;if(id)$('globeTooltip').textContent=locations.find(l=>l.id===id).name+' · Select to explore';});renderer.domElement.addEventListener('pointerleave',()=>{$('globeTooltip').hidden=true;});
-    viewport.addEventListener('keydown',event=>{if(['ArrowLeft','ArrowRight','ArrowUp','ArrowDown'].includes(event.key)){event.preventDefault();flight=null;stopTour();const spherical=new THREE.Spherical().setFromVector3(camera.position);spherical.theta+=event.key==='ArrowLeft'?.15:event.key==='ArrowRight'?-.15:0;spherical.phi+=event.key==='ArrowUp'?-.12:event.key==='ArrowDown'?.12:0;spherical.makeSafe();camera.position.setFromSpherical(spherical);controls.update();draw(performance.now());}if(event.key==='+'||event.key==='=')zoom(.85);if(event.key==='-')zoom(1.15);});
-    function zoom(factor){flight=null;camera.position.setLength(THREE.MathUtils.clamp(camera.position.length()*factor,controls.minDistance,controls.maxDistance));controls.update();draw(performance.now());}
+    viewport.addEventListener('keydown',event=>{if(cityView.visible)return;if(['ArrowLeft','ArrowRight','ArrowUp','ArrowDown'].includes(event.key)){event.preventDefault();flight=null;stopTour();const spherical=new THREE.Spherical().setFromVector3(camera.position);spherical.theta+=event.key==='ArrowLeft'?.15:event.key==='ArrowRight'?-.15:0;spherical.phi+=event.key==='ArrowUp'?-.12:event.key==='ArrowDown'?.12:0;spherical.makeSafe();camera.position.setFromSpherical(spherical);controls.update();draw(performance.now());}if(event.key==='+'||event.key==='=')zoom(.85);if(event.key==='-')zoom(1.15);});
+    function zoom(factor){if(cityView.zoom(factor<1?1:-1))return;stopTour();flight=null;camera.position.setLength(THREE.MathUtils.clamp(camera.position.length()*factor,controls.minDistance,controls.maxDistance));controls.update();draw(performance.now());}
     $('zoomIn').addEventListener('click',()=>zoom(.85));$('zoomOut').addEventListener('click',()=>zoom(1.15));
-    $('rotateToggle').addEventListener('click',()=>{autoRotate=!autoRotate;$('rotateToggle').setAttribute('aria-pressed',String(autoRotate));$('rotateToggle').textContent=autoRotate?'Ⅱ Pause rotation':'↻ Auto rotate';if(reduced.matches&&autoRotate){$('rotateToggle').textContent='Motion reduced';autoRotate=false;$('rotateToggle').setAttribute('aria-pressed','false');}wake();});
+    $('rotateToggle').addEventListener('click',()=>{stopTour();autoRotate=!autoRotate;$('rotateToggle').setAttribute('aria-pressed',String(autoRotate));$('rotateToggle').textContent=autoRotate?'Ⅱ Pause rotation':'↻ Auto rotate';if(reduced.matches&&autoRotate){$('rotateToggle').textContent='Motion reduced';autoRotate=false;$('rotateToggle').setAttribute('aria-pressed','false');}wake();});
     $('routeToggle').addEventListener('click',()=>{routes.visible=!routes.visible;$('routeToggle').setAttribute('aria-pressed',String(routes.visible));draw(performance.now());});
     $('resetView').addEventListener('click',()=>{stopTour();autoRotate=false;$('rotateToggle').setAttribute('aria-pressed','false');$('rotateToggle').textContent='↻ Auto rotate';flyTo(locations.find(l=>l.id===selectedPlace)||locations[0],3.7);wake();});
-    globe={select:(id,fly)=>{select(id,fly);draw(performance.now());wake();}};select(selected.location);resize();wake();$('globeLoading').hidden=true;$('mapState').textContent='3 LOCATIONS / 10 CHAPTERS';
+    globe={
+        select:(id,fly)=>{select(id,fly);draw(performance.now());wake();},
+        fly:(id,distance,duration)=>{const place=locations.find(l=>l.id===id);if(place){flyTo(place,distance,duration);wake();}},
+        cancelFlight:()=>{flight=null;},
+        setTourMode:active=>{controls.enabled=!active;if(active){autoRotate=false;$('rotateToggle').setAttribute('aria-pressed','false');$('rotateToggle').textContent='↻ Auto rotate';}wake();}
+    };select(selected.location);resize();wake();$('globeLoading').hidden=true;$('mapState').textContent='3 LOCATIONS / 10 CHAPTERS';
     try {
         const response=await fetch('assets/globe/countries.geojson');if(!response.ok)throw Error('Map unavailable');const geo=await response.json();
         const canvas=document.createElement('canvas');canvas.width=2048;canvas.height=1024;const ctx=canvas.getContext('2d');ctx.fillStyle='#081d30';ctx.fillRect(0,0,canvas.width,canvas.height);
@@ -130,5 +196,5 @@ async function createGlobe() {
 }
 createGlobe().catch(error=>{
     console.error(error);$('mapState').textContent='CHAPTER EXPLORER';$('globeLoading').textContent='The 3D globe could not load on this device. Explore every location and career chapter using the controls alongside it.';
-    document.querySelectorAll('.globe-toolbar button').forEach(button=>{button.disabled=true;});
+    document.querySelectorAll('.globe-toolbar button:not(#openCityMap)').forEach(button=>{button.disabled=true;});
 });

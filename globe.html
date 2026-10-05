@@ -4,6 +4,7 @@
 <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="description" content="Explore S B’s career and education on an interactive 3D globe.">
 <title>S B — Experience Atlas</title>
+<link rel="stylesheet" href="assets/globe/vendor/leaflet.css">
 <link rel="stylesheet" href="globe.css">
 <script type="importmap">{"imports":{"three":"./assets/globe/vendor/three.module.js","three/addons/controls/OrbitControls.js":"./assets/globe/vendor/OrbitControls.js"}}</script>
 </head>
@@ -14,8 +15,14 @@
 <div class="atlas-layout">
 <section class="globe-stage" aria-label="Interactive world globe">
 <div class="stage-top"><span class="live-dot"></span><span>CAREER & EDUCATION</span><span id="mapState">INITIALIZING WORLD</span></div>
-<div id="globeViewport" tabindex="0" role="region" aria-label="3D globe. Drag to rotate, scroll or pinch to zoom. Use the location buttons to select a place, or arrow keys to rotate."><div id="globeLoading" role="status">Building your world…</div><div id="globeLabels" aria-hidden="true"></div><div id="globeTooltip" role="status" hidden></div></div>
-<div class="globe-toolbar" aria-label="Globe controls"><button id="rotateToggle" aria-pressed="false">↻ Auto rotate</button><button id="routeToggle" aria-pressed="true">⌁ Connections</button><button id="zoomIn" aria-label="Zoom in">＋</button><button id="zoomOut" aria-label="Zoom out">−</button><button id="resetView">◎ Reset view</button></div>
+<div id="globeViewport" tabindex="0" role="region" aria-label="3D globe. Drag to rotate, scroll or pinch to zoom. Use the location buttons to select a place, or arrow keys to rotate."><div id="globeLoading" role="status">Building your world…</div><div id="globeLabels" aria-hidden="true"></div><div id="globeTooltip" role="status" hidden></div>
+<div id="cityView" class="city-view" hidden>
+    <div class="city-heading"><div><p class="eyebrow">ON THE GROUND</p><strong id="cityName"></strong></div><button id="closeCityMap" type="button" aria-label="Return to globe">↗ Globe</button></div>
+    <div id="cityMap" role="region" aria-label="Interactive city street map"></div>
+    <p id="cityMapStatus" class="city-map-status" role="status">Loading city streets…</p>
+    <div class="city-caption"><span id="cityCoordinates"></span><a id="cityMapLink" href="https://www.openstreetmap.org/" target="_blank" rel="noopener noreferrer">Open map ↗</a></div>
+</div></div>
+<div class="globe-toolbar" aria-label="Globe controls"><button id="rotateToggle" aria-pressed="false">↻ Auto rotate</button><button id="routeToggle" aria-pressed="true">⌁ Connections</button><button id="openCityMap">⌖ City map</button><button id="zoomIn" aria-label="Zoom in">＋</button><button id="zoomOut" aria-label="Zoom out">−</button><button id="resetView">◎ Reset view</button></div>
 <div class="stage-bottom"><span>DRAG TO ORBIT · SCROLL TO ZOOM</span><span>ESC TO STOP TOUR</span></div>
 </section>
 <aside class="experience-sidebar" aria-label="Explore career chapters">
@@ -31,5 +38,6 @@
 <div class="atlas-footer"><span>2014 → PRESENT <span class="footer-divider">/</span> BUILD · DEPLOY · OBSERVE · LEAD</span><a href="https://www.naturalearthdata.com/about/terms-of-use/" target="_blank" rel="noopener noreferrer">Map data: Natural Earth ↗</a></div>
 </main>
 <noscript><p class="no-script">Enable JavaScript to explore the globe. <a href="index.html#experience">Read the full career journey here.</a></p></noscript>
+<script src="assets/globe/vendor/leaflet.js"></script>
 <script src="globe.js" type="module"></script>
 </body></html>
