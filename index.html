@@ -1,566 +1,243 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="dark">
+<html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>S B — Technology Leadership & Operational Resilience</title>
-    <link rel="stylesheet" href="styles.css">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#070914" />
+  <title>Coming Soon</title>
+
+  <style>
+    :root {
+      --bg: #070914;
+      --cyan: #66f7ff;
+      --purple: #a884ff;
+      --text: #f4f6ff;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      min-height: 100vh;
+      margin: 0;
+      overflow: hidden;
+      display: grid;
+      place-items: center;
+      color: var(--text);
+      background:
+        radial-gradient(ellipse at 50% 48%, #171b3b 0%, transparent 42%),
+        radial-gradient(ellipse at 50% 100%, #10142a 0%, var(--bg) 65%);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, sans-serif;
+    }
+
+    /* Starfield */
+    body::before,
+    body::after {
+      content: "";
+      position: fixed;
+      inset: -50%;
+      pointer-events: none;
+      background-image:
+        radial-gradient(1px 1px at 12% 21%, #fff 99%, transparent),
+        radial-gradient(1px 1px at 42% 77%, #8dfaff 99%, transparent),
+        radial-gradient(2px 2px at 73% 34%, #fff 99%, transparent),
+        radial-gradient(1px 1px at 84% 68%, #bda8ff 99%, transparent),
+        radial-gradient(1px 1px at 28% 53%, #fff 99%, transparent);
+      background-size: 280px 240px;
+      opacity: 0.48;
+      animation: drift 70s linear infinite;
+    }
+
+    body::after {
+      background-size: 390px 330px;
+      opacity: 0.25;
+      animation-duration: 110s;
+      animation-direction: reverse;
+    }
+
+    .page {
+      position: relative;
+      isolation: isolate;
+      width: min(92vw, 760px);
+      padding: 3rem 1rem;
+      text-align: center;
+    }
+
+    .eyebrow {
+      margin: 0 0 1.4rem;
+      color: var(--cyan);
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.36em;
+      text-transform: uppercase;
+    }
+
+    .portal {
+      position: relative;
+      width: clamp(180px, 38vw, 280px);
+      aspect-ratio: 1;
+      margin: 0 auto 2.3rem;
+      display: grid;
+      place-items: center;
+    }
+
+    .portal::before,
+    .portal::after,
+    .portal-inner {
+      content: "";
+      position: absolute;
+      inset: 8%;
+      border: 1px solid rgba(102, 247, 255, 0.55);
+      border-radius: 50%;
+      box-shadow:
+        0 0 18px rgba(102, 247, 255, 0.3),
+        inset 0 0 24px rgba(102, 247, 255, 0.12);
+      animation: rotate 14s linear infinite;
+    }
+
+    .portal::before {
+      border-color: rgba(168, 132, 255, 0.65);
+      transform: scaleX(0.55) rotate(30deg);
+      animation-duration: 10s;
+      animation-direction: reverse;
+    }
+
+    .portal::after {
+      inset: 18%;
+      border-style: dashed;
+      opacity: 0.65;
+      animation-duration: 28s;
+    }
+
+    .portal-inner {
+      inset: 29%;
+      border-color: rgba(255, 255, 255, 0.8);
+      box-shadow: 0 0 34px rgba(102, 247, 255, 0.45);
+      animation: breathe 3s ease-in-out infinite;
+    }
+
+    .core {
+      width: 15%;
+      aspect-ratio: 1;
+      border-radius: 50%;
+      background: white;
+      box-shadow:
+        0 0 15px 5px var(--cyan),
+        0 0 48px 18px rgba(168, 132, 255, 0.5);
+      animation: pulse 2.4s ease-in-out infinite;
+    }
+
+    h1 {
+      margin: 0;
+      font-size: clamp(2.7rem, 9vw, 5.6rem);
+      line-height: 0.98;
+      font-weight: 800;
+      letter-spacing: -0.07em;
+      text-shadow: 0 0 30px rgba(102, 247, 255, 0.18);
+    }
+
+    h1 span {
+      display: block;
+      color: transparent;
+      -webkit-text-stroke: 1px rgba(244, 246, 255, 0.85);
+      text-shadow: none;
+    }
+
+    .description {
+      max-width: 430px;
+      margin: 1.5rem auto 0;
+      color: #aeb5d0;
+      font-size: clamp(0.95rem, 2vw, 1.05rem);
+      line-height: 1.7;
+    }
+
+    .status {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.65rem;
+      margin-top: 2.2rem;
+      padding: 0.7rem 1rem;
+      border: 1px solid rgba(102, 247, 255, 0.25);
+      border-radius: 999px;
+      color: #dcecff;
+      background: rgba(9, 15, 34, 0.62);
+      font-size: 0.72rem;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+    }
+
+    .status-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--cyan);
+      box-shadow: 0 0 12px var(--cyan);
+      animation: pulse 1.5s ease-in-out infinite;
+    }
+
+    .scanline {
+      position: fixed;
+      inset: 0;
+      z-index: -1;
+      pointer-events: none;
+      opacity: 0.12;
+      background: repeating-linear-gradient(
+        to bottom,
+        transparent 0,
+        transparent 3px,
+        rgba(255, 255, 255, 0.12) 4px
+      );
+    }
+
+    @keyframes rotate {
+      to { transform: rotate(360deg); }
+    }
+
+    @keyframes breathe {
+      50% { transform: scale(1.12); opacity: 0.55; }
+    }
+
+    @keyframes pulse {
+      50% { opacity: 0.55; transform: scale(0.88); }
+    }
+
+    @keyframes drift {
+      to { transform: translate3d(8%, 6%, 0); }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        scroll-behavior: auto !important;
+      }
+    }
+  </style>
 </head>
+
 <body>
-    <header class="header">
-        <nav class="navbar">
-            <div class="nav-container">
-                <div class="logo">
-                    <h1>S<span class="highlight">B</span></h1>
-                </div>
-                <ul class="nav-menu" id="section-menu">
-                    <li><a href="#about">About</a></li>
-                    <li><a href="#skills">Skills</a></li>
-                    <li><a href="#experience">Experience</a></li>
-                    <li><a href="#work">Work</a></li>
-                    <li><a href="globe.html">Globe ↗</a></li>
-                </ul>
-                <div class="nav-controls">
-                    <button class="theme-toggle" id="themeToggle" aria-label="Toggle dark mode">
-                        <span class="theme-icon light-icon">☀️</span>
-                        <span class="theme-icon dark-icon">🌙</span>
-                    </button>
-                    <button class="nav-toggle" aria-label="Open section menu" aria-expanded="false" aria-controls="section-menu">
-                        <span></span>
-                        <span></span>
-                        <span></span>
-                    </button>
-                </div>
-            </div>
-        </nav><div class="reading-progress" aria-hidden="true"><span id="readingProgress"></span></div>
-    </header>
+  <div class="scanline" aria-hidden="true"></div>
 
-    <main>
-        <section class="hero introduction" aria-labelledby="introduction-title">
-            <div id="futuristic-bg"></div>
-            <div class="particles"></div>
-            <div class="grid-overlay"></div>
-            <div class="container hero-layout"><div class="hero-content">
-                <p class="intro-eyebrow"><span aria-hidden="true"></span> THE PROTECTION ARCHITECT</p>
-                <p class="intro-name">Hello, I’m S B.</p>
-                <h1 class="hero-title" id="introduction-title">I lead teams that keep critical financial systems <span class="intro-accent">resilient.</span></h1>
-                <p class="intro-role">Senior Manager · Core Protection Team <span>CIBC Financial Crimes</span></p>
-                <p class="hero-subtitle">Bringing people, cloud infrastructure, and operational discipline together to protect the systems that matter.</p>
-                <div class="hero-cta">
-                    <a href="#experience" class="cta-button primary">Explore My Work <span aria-hidden="true">↗</span></a>
-                    <a href="Resume.pdf" class="cta-button secondary" download>Download Résumé <span aria-hidden="true">↓</span></a>
-                </div>
-                <div class="intro-pillars" aria-label="Areas of focus"><span>Strategic leadership</span><span>Cloud & DevOps</span><span>Operational resilience</span></div>
-            </div>
-                <aside class="architecture" aria-label="My approach to resilience">
-                    <p class="panel-label">HOW I CONNECT THE DOTS</p>
-                    <div class="architecture-map">
-                        <svg viewBox="0 0 320 240" aria-hidden="true"><path d="M160 120 L65 45 M160 120 L255 45 M160 120 L160 210"/></svg>
-                        <div class="architecture-core">◎<strong>Resilience</strong><small>Systems that matter</small></div>
-                        <button class="architecture-node people" data-node="people" aria-pressed="true">People</button>
-                        <button class="architecture-node cloud" data-node="cloud" aria-pressed="false">Cloud</button>
-                        <button class="architecture-node operations" data-node="operations" aria-pressed="false">Operations</button>
-                    </div>
-                    <p id="architectureDescription" aria-live="polite">Shared ownership, mentoring, and cross-functional teams bring the strategy to life.</p>
-                </aside>
-            </div>
-            <div class="scroll-indicator">
-                <div class="scroll-line"></div>
-                <span>EXPLORE THE JOURNEY</span>
-            </div>
-        </section>
+  <main class="page">
+    <p class="eyebrow">A new world is forming</p>
 
-        <section id="about" class="about">
-            <div class="container">
-                <div class="section-header">
-                    <h2>About Me</h2>
-                    <div class="section-line"></div>
-                </div>
-                <div class="about-content">
-                    <div class="about-text">
-                        <p class="lead">Senior IT professional with 8+ years of experience and proven track record of meeting company goals utilizing consistent and organized practices.</p>
-                        <p>Currently serving as Senior Manager for Core Protection Team at CIBC since April 2025, I lead strategic initiatives in financial crimes technology and oversee critical protection systems. I specialize in cloud infrastructure, DevOps automation, and strategic team management. I excel at working under pressure and adapting to new situations and challenges to best enhance organizational efficiency.</p>
-                        <p>My expertise spans from application migration to OpenShift, implementing CI/CD pipelines, and maintaining high-availability systems while ensuring security standards and SLA compliance in the financial crimes domain.</p>
-                    </div>
-                    <div class="snapshot-grid">
-                    <article class="snapshot snapshot-main"><span class="panel-label">TODAY</span><h3>Leading protection.</h3><p>Senior Manager, Core Protection Team at CIBC Financial Crimes.</p><span class="snapshot-tag">Since April 2025</span></article>
-                    <article class="snapshot"><span class="panel-label">THE START</span><h3>Built for mobile.</h3><p>My journey began with iOS development, from interfaces to App Store releases.</p></article>
-                    <article class="snapshot"><span class="panel-label">FOUNDATION</span><h3>Computer science<br>& networking.</h3><p>A foundation in software and the infrastructure behind it.</p></article>
-                    <article class="snapshot snapshot-wide"><span class="panel-label">BEYOND THE ROLE</span><h3>Always exploring technology.</h3><p>From mobile applications to AI-assisted development, curiosity keeps me building.</p></article>
-                </div>
-            </div>
-        </section>
-
-        <section id="skills" class="innovations">
-            <div class="container">
-                <div class="section-header">
-                    <h2>Technical Skills</h2>
-                    <div class="section-line"></div>
-                </div>
-                <p class="section-intro">Explore the connections between the tools I use and the work they support.</p>
-                <div class="skill-filters" role="group" aria-label="Explore skills by focus">
-                    <button data-focus="build" aria-pressed="true">Build</button><button data-focus="deploy" aria-pressed="false">Deploy</button><button data-focus="observe" aria-pressed="false">Observe</button><button data-focus="lead" aria-pressed="false">Lead</button>
-                </div>
-                <p id="skillConnection" class="skill-connection" aria-live="polite">Build → iOS applications, Firebase integrations, and AI-assisted development.</p>
-                <div class="innovations-grid">
-<article class="innovation-card" data-skills="deploy"><div class="line-icon" aria-hidden="true">◇</div><h3>DevOps & Cloud</h3><p>Infrastructure, containerization, and deployment automation.</p><div class="card-tech"><span>Jenkins</span><span>Docker</span><span>OpenShift</span><span>Azure</span></div></article><article class="innovation-card" data-skills="build"><div class="line-icon" aria-hidden="true">⌘</div><h3>AI-assisted development</h3><p>Applied AI tools to build this portfolio and supporting assets.</p><div class="card-tech"><span>Coding</span><span>Content</span><span>Design</span><span>Automation</span></div></article><article class="innovation-card" data-skills="deploy observe"><div class="line-icon" aria-hidden="true">▤</div><h3>Operating Systems</h3><p>System administration and configuration across platforms.</p><div class="card-tech"><span>Linux</span><span>Windows</span><span>Mac</span><span>Unix</span></div></article><article class="innovation-card" data-skills="build"><div class="line-icon" aria-hidden="true">▯</div><h3>Mobile Development</h3><p>Application interfaces, integrations, and App Store releases.</p><div class="card-tech"><span>Objective-C</span><span>Swift</span><span>iOS SDK</span><span>Firebase</span></div></article><article class="innovation-card" data-skills="observe"><div class="line-icon" aria-hidden="true">⌁</div><h3>Monitoring & Analysis</h3><p>Logging, troubleshooting, and application performance analysis.</p><div class="card-tech"><span>Grafana</span><span>Splunk</span><span>Dynatrace</span><span>ServiceNow</span></div></article><article class="innovation-card" data-skills="lead"><div class="line-icon" aria-hidden="true">↗</div><h3>Strategic Leadership</h3><p>Connecting teams, operational priorities, and technology delivery.</p><div class="card-tech"><span>Mentoring</span><span>Service reviews</span><span>Agile delivery</span><span>Incident management</span></div></article></div>
-            </div>
-        </section>
-
-        <section id="experience" class="career-section"><div class="container"><div class="section-header"><h2>One journey. Growing impact.</h2><div class="section-line"></div></div><p class="section-intro">From building applications to leading the teams that protect them. Select a chapter to explore. <a href="globe.html" class="atlas-link">Explore the experience globe ↗</a></p><div class="career-layout"><div class="career-stops" role="group" aria-label="Career chapters"><button class="career-stop" data-career="career-0" aria-controls="career-0" aria-pressed="true"><span>April 2025 - Present</span><strong>Senior Manager</strong><small>CIBC Financial Crimes</small></button><button class="career-stop" data-career="career-1" aria-controls="career-1" aria-pressed="false"><span>Sept 2022 - March 2025</span><strong>Tech Lead</strong><small>CIBC Financial Crimes</small></button><button class="career-stop" data-career="career-2" aria-controls="career-2" aria-pressed="false"><span>Sept 2020 - Aug 2022</span><strong>Team Lead</strong><small>CIBC Financial Crimes</small></button><button class="career-stop" data-career="career-3" aria-controls="career-3" aria-pressed="false"><span>Nov 2019 - Sept 2020</span><strong>Senior Technical Analyst</strong><small>CIBC</small></button><button class="career-stop" data-career="career-4" aria-controls="career-4" aria-pressed="false"><span>May 2018 – Nov 2019</span><strong>Technical Analyst</strong><small>CIBC</small></button><button class="career-stop" data-career="career-5" aria-controls="career-5" aria-pressed="false"><span>Sept 2016 - May 2017</span><strong>Technical Analyst Co-op</strong><small>CIBC</small></button><button class="career-stop" data-career="career-6" aria-controls="career-6" aria-pressed="false"><span>June 2016 - Nov 2017</span><strong>iOS Developer</strong><small>HOTSPOT LIFE</small></button><button class="career-stop" data-career="career-7" aria-controls="career-7" aria-pressed="false"><span>May 2014 - Nov 2015</span><strong>Jr. iOS Developer</strong><small>IAPP TECHNOLOGIES, Mohali, Punjab, India</small></button></div><div class="career-details"><article id="career-0" class="career-panel" ><span class="panel-label">CHAPTER 08</span><h3>Senior Manager | Core Protection Team</h3><p class="career-meta">CIBC Financial Crimes · April 2025 - Present</p><p>Leading strategic initiatives in financial crimes technology, overseeing critical protection systems, and managing cross-functional teams to deliver enterprise-level security solutions.</p></article><article id="career-1" class="career-panel" hidden><span class="panel-label">CHAPTER 07</span><h3>Tech Lead | Application Operations</h3><p class="career-meta">CIBC Financial Crimes · Sept 2022 - March 2025</p><p>Led service review calls, managed applications/infrastructure, onboarded new technology through PILOT projects, and provided 24x7 on-call support for critical incidents.</p></article><article id="career-2" class="career-panel" hidden><span class="panel-label">CHAPTER 06</span><h3>Team Lead | Application Integration</h3><p class="career-meta">CIBC Financial Crimes · Sept 2020 - Aug 2022</p><p>Successfully migrated Actimize Actone application to cloud, configured CI/CD pipelines on Jenkins for OpenShift deployment, and led Autosys migration projects.</p></article><article id="career-3" class="career-panel" hidden><span class="panel-label">CHAPTER 05</span><h3>Senior Technical Analyst | Branch Support Operations</h3><p class="career-meta">CIBC · Nov 2019 - Sept 2020</p><ul>
-                                <li>Manage various CIBC production servers supporting CIBC branches by monitoring, performing data backups and troubleshooting.</li>
-                                <li>Investigate, escalate, and resolve technical problems encountered by users to ensure continuation of the working environment.</li>
-                                <li>Review, approve and implement technical project plans like server and computer refreshes and more.</li>
-                                <li>Consult user guides, technical manuals and other documents to research and implement solutions.</li>
-                                <li>Identify and verify system and application events, escalate to technical specialist, and provide support as required.</li>
-                                <li>Configure newly installed servers by installing required patches and preparing production server for the branch level use.</li>
-                                <li>Work with Bell to provide 24x7 network connectivity to CIBC branches and to other CIBC line of businesses. Communicate with ABM vendor HP and NCR to support ABM machines and provide them with network support for ABM machines.</li>
-                                <li>Participate with senior incident management team to develop resolving plans for chronic issues. Develop and demonstrate service-oriented skills while working with multiple lines of business.</li>
-                            </ul></article><article id="career-4" class="career-panel" hidden><span class="panel-label">CHAPTER 04</span><h3>Technical Analyst | Branch Support Operations</h3><p class="career-meta">CIBC · May 2018 – Nov 2019</p><ul>
-                                <li>Manage various CIBC production servers supporting CIBC branches by monitoring, performing data backups and troubleshooting.</li>
-                                <li>Investigate, escalate, and resolve technical problems encountered by users to ensure continuation of the working environment.</li>
-                                <li>Review, approve and implement technical project plans like server and computer refreshes and more.</li>
-                                <li>Consult user guides, technical manuals and other documents to research and implement solutions.</li>
-                                <li>Identify and verify system and application events, escalate to technical specialist, and provide support as required.</li>
-                                <li>Configure newly installed servers by installing required patches and preparing production server for the branch level use.</li>
-                                <li>Work with Bell to provide 24x7 network connectivity to CIBC branches and to other CIBC line of businesses. Communicate with ABM vendor HP and NCR to support ABM machines and provide them with network support for ABM machines.</li>
-                            </ul></article><article id="career-5" class="career-panel" hidden><span class="panel-label">CHAPTER 03</span><h3>Technical Analyst Co-op | Branch Support Operations</h3><p class="career-meta">CIBC · Sept 2016 - May 2017</p><ul>
-                                <li>Configure newly installed servers by installing required patches and preparing production server for the branch level use.</li>
-                                <li>Identify and verify system and application events, escalate to technical specialist, and provide support as required.</li>
-                                <li>Investigate, escalate, and resolve technical problems encountered by users to ensure continuation of the working environment.</li>
-                            </ul></article><article id="career-6" class="career-panel" hidden><span class="panel-label">CHAPTER 02</span><h3>iOS Developer | Hotspot Life (Startup)</h3><p class="career-meta">HOTSPOT LIFE · June 2016 - Nov 2017</p><ul>
-                                <li>Develop and design UI of application using Objective-C.</li>
-                                <li>Manage database on Firebase.</li>
-                                <li>Manage Apple developer account and publish the application on store.</li>
-                                <li>Implemented Maps, Push notification and created a chat feature using data listeners on the Firebase database.</li>
-                                <li>Gather information about APIs available for the app functionality.</li>
-                            </ul></article><article id="career-7" class="career-panel" hidden><span class="panel-label">CHAPTER 01</span><h3>Jr. iOS Developer | IAPP Technologies</h3><p class="career-meta">IAPP TECHNOLOGIES, Mohali, Punjab, India · May 2014 - Nov 2015</p><ul>
-                                <li>Designing and building mobile applications for Apple’s iOS platform.</li>
-                                <li>Collaborating with the design team to define app features.</li>
-                                <li>Ensuring quality and performance of the application to specifications.</li>
-                                <li>Identifying potential problems and resolving application bottlenecks.</li>
-                                <li>Fixing application bugs before the final release.</li>
-                                <li>Publishing application on App Store.</li>
-                                <li>Maintaining the code and automation of the application.</li>
-                            </ul></article></div></div></div></section>
-<section id="work" class="work-section"><div class="container"><div class="section-header"><h2>Work behind the systems.</h2><div class="section-line"></div></div><p class="section-intro">Selected examples from my application integration and operations roles.</p><div class="work-grid"><article class="work-card"><span class="work-number">01</span><span class="panel-label">Cloud migration</span><h3>Moving Actimize Actone to the cloud</h3><p class="work-tools">OpenShift · Jenkins · Application integration</p><details><summary>Explore the story <span aria-hidden="true">↗</span></summary><dl><dt>Challenge</dt><dd>An enterprise application needed to move to a cloud platform.</dd><dt>Approach</dt><dd>Led the application migration and configured Jenkins pipelines for OpenShift deployments.</dd><dt>Outcome</dt><dd>Actimize Actone migrated to the cloud, connecting application integration with deployment automation.</dd></dl></details></article><article class="work-card"><span class="work-number">02</span><span class="panel-label">Deployment automation</span><h3>Connecting code to operations</h3><p class="work-tools">CI/CD · Jenkins · Autosys</p><details><summary>Explore the story <span aria-hidden="true">↗</span></summary><dl><dt>Challenge</dt><dd>Application delivery required coordinated infrastructure and deployment processes.</dd><dt>Approach</dt><dd>Configured CI/CD pipelines on Jenkins for OpenShift deployment and led Autosys migration projects.</dd><dt>Outcome</dt><dd>Established deployment pipelines and supported the transition of scheduling infrastructure.</dd></dl></details></article><article class="work-card"><span class="work-number">03</span><span class="panel-label">Critical operations</span><h3>Keeping essential systems running</h3><p class="work-tools">Service reviews · Monitoring · Incident response</p><details><summary>Explore the story <span aria-hidden="true">↗</span></summary><dl><dt>Challenge</dt><dd>Critical financial crimes applications required ongoing operational support and incident response.</dd><dt>Approach</dt><dd>Led service reviews, managed applications and infrastructure, and provided 24×7 on-call support.</dd><dt>Outcome</dt><dd>Supported critical incident resolution and the operational oversight of essential applications.</dd></dl></details></article></div></div></section>
-        <section id="education" class="lab">
-            <div class="container">
-                <div class="section-header">
-                    <h2>Education</h2>
-                    <div class="section-line"></div>
-                </div>
-                <div class="lab-content">
-                    <div class="lab-intro">
-                        <p>Strong academic foundation in computer science and specialized technology training.</p>
-                    </div>
-                    <div class="lab-grid">
-                        <div class="lab-item">
-                            <h3>Computer System Technology - Networking</h3>
-                            <p><strong>Centennial College, Toronto</strong></p>
-                            <p>2016-2018</p>
-                            <div class="lab-stats">
-                                <span>Networking Focus</span>
-                                <span>System Administration</span>
-                            </div>
-                        </div>
-                        <div class="lab-item">
-                            <h3>Bachelor in Computer Science</h3>
-                            <p><strong>Punjab Technical University, Punjab, India</strong></p>
-                            <p>2010-2014</p>
-                            <div class="lab-stats">
-                                <span>Software Engineering</span>
-                                <span>Computer Science</span>
-                            </div>
-                        </div>
-                        <div class="lab-item">
-                            <h3>Activities & Interests</h3>
-                            <p>Drawing, Watching Tech blogs, Cars, Troubleshooting, Brainstorming on ideas.</p>
-                            <div class="lab-stats">
-                                <span>Creative Problem Solving</span>
-                                <span>Technology Enthusiast</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <section id="expertise" class="contact">
-            <div class="container">
-                <div class="section-header">
-                    <h2>Areas of Expertise</h2>
-                    <div class="section-line"></div>
-                </div>
-                <div class="contact-content">
-                    <div class="contact-text">
-                        <p class="lead">Core competencies and specialized knowledge areas that drive successful project delivery.</p>
-                        <p>With extensive experience in enterprise-level technology operations and team leadership, I bring deep expertise across multiple domains.</p>
-                    </div>
-                    <div class="contact-methods">
-                        <div class="contact-method">
-                            <div class="method-icon line-icon" aria-hidden="true">◇</div>
-                            <div class="method-info">
-                                <h3>System Architecture & Design</h3>
-                                <p>Enterprise-level system design and infrastructure planning</p>
-                            </div>
-                        </div>
-                        <div class="contact-method">
-                            <div class="method-icon line-icon" aria-hidden="true">◇</div>
-                            <div class="method-info">
-                                <h3>Performance Optimization</h3>
-                                <p>Application and infrastructure performance tuning</p>
-                            </div>
-                        </div>
-                        <div class="contact-method">
-                            <div class="method-icon line-icon" aria-hidden="true">◇</div>
-                            <div class="method-info">
-                                <h3>Security Best Practices</h3>
-                                <p>ITIL and SRE processes, security standards compliance</p>
-                            </div>
-                        </div>
-                        <div class="contact-method">
-                            <div class="method-icon line-icon" aria-hidden="true">◇</div>
-                            <div class="method-info">
-                                <h3>Team Leadership</h3>
-                                <p>Mentoring, training, and agile project management</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-    </main>
-
-    <footer class="footer">
-        <div class="container">
-            <div class="footer-content">
-                <div class="footer-section">
-                    <h3>S<span class="highlight">B</span></h3>
-                    <p>Technology leadership · Operational resilience</p>
-                </div>
-                <div class="footer-section">
-                    <h4>Quick Links</h4>
-                    <ul>
-                        <li><a href="#about">About</a></li>
-                        <li><a href="#skills">Skills</a></li>
-                        <li><a href="#experience">Experience</a></li>
-                        <li><a href="#work">Work</a></li>
-                        <li><a href="#expertise">Expertise</a></li>
-                    </ul>
-                </div>
-                <div class="footer-section">
-                    <h4>Professional Portfolio</h4>
-                    <ul>
-                        <li>7+ Years Experience</li>
-                        <li>DevOps & Cloud Expert</li>
-                        <li>Team Leadership</li>
-                        <li>CIBC Financial Crimes</li>
-                    </ul>
-                </div>
-            </div>
-            <div class="footer-bottom">
-                <p>&copy; 2026 S B. Professional Portfolio.</p>
-                <p style="font-size:12px;color:var(--accent-text);margin-top:6px;">This website was developed using AI tools only.</p>
-            </div>
-        </div>
-    </footer>
-
-    <audio id="bgMusic" loop preload="none"><source src="background.mp3" type="audio/mpeg"></audio>
-    <details class="atmosphere"><summary>◌ <span>Atmosphere</span></summary><div class="atmosphere-panel"><p class="panel-label">MAKE YOURSELF AT HOME</p><button id="appearanceToggle" type="button">Theme: dark</button><button id="motionToggle" type="button" aria-pressed="false">Motion: on</button><button id="soundToggle" type="button" aria-pressed="false">Sound: off</button><p id="soundStatus" aria-live="polite"></p></div></details>
-    <!-- Mascot Coming Out of Hole -->
-    <div class="mascot-hole" id="mascotHole">
-        <div class="hole-dirt"></div>
-        <div class="mascot-clip">
-            <div class="mascot-container" id="mascotContainer">
-                <video class="mascot-video" autoplay loop muted playsinline>
-                    <source src="mascot.MP4" type="video/mp4">
-                </video>
-            </div>
-        </div>
-        <div class="hole-front"></div>
+    <div class="portal" aria-hidden="true">
+      <div class="portal-inner"></div>
+      <div class="core"></div>
     </div>
 
-    <style>
-        .mascot-hole {
-            position: fixed;
-            right: 0;
-            bottom: 100px;
-            width: 160px;
-            height: 200px;
-            z-index: 1000;
-            pointer-events: none;
-        }
+    <h1>COMING <span>SOON</span></h1>
 
-        .mascot-clip {
-            position: absolute;
-            bottom: 30px;
-            right: 0;
-            width: 140px;
-            height: 150px;
-            overflow: hidden;
-        }
+    <p class="description">
+      Something extraordinary is on its way.
+      The countdown has begun.
+    </p>
 
-        .hole-dirt {
-            position: absolute;
-            bottom: 0;
-            right: 0;
-            width: 140px;
-            height: 60px;
-            background: radial-gradient(ellipse at center, #1a0a00 0%, #2d1810 40%, #4a2c20 70%, transparent 100%);
-            border-radius: 50%;
-            transform: perspective(100px) rotateX(60deg);
-            box-shadow: inset 0 -10px 20px rgba(0,0,0,0.8);
-        }
-
-        .mascot-container {
-            position: absolute;
-            width: 120px;
-            height: 120px;
-            right: 10px;
-            bottom: 0;
-            animation: peekOut 1s ease-out forwards;
-            transform-origin: bottom center;
-        }
-
-        .mascot-video {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            border-radius: 50%;
-            box-shadow: 0 0 15px rgba(0, 255, 255, 0.4), 0 0 30px rgba(0, 255, 255, 0.2);
-        }
-
-        .hole-front {
-            position: absolute;
-            bottom: -5px;
-            right: -10px;
-            width: 160px;
-            height: 40px;
-            background: radial-gradient(ellipse at center top, #3d2518 0%, #2a1a12 50%, #1a0a00 100%);
-            border-radius: 50%;
-            transform: perspective(100px) rotateX(50deg);
-            z-index: 10;
-        }
-
-        @keyframes peekOut {
-            0% {
-                transform: translateY(100px);
-            }
-            100% {
-                transform: translateY(0px);
-            }
-        }
-
-        @media (max-width: 768px) {
-            .mascot-hole {
-                width: 120px;
-                height: 150px;
-                bottom: 80px;
-            }
-            .mascot-clip {
-                width: 100px;
-                height: 110px;
-                bottom: 25px;
-            }
-            .mascot-container {
-                width: 80px;
-                height: 80px;
-            }
-            .hole-dirt {
-                width: 100px;
-                height: 45px;
-            }
-            .hole-front {
-                width: 120px;
-                height: 30px;
-            }
-        }
-    /* Bubble Character Effect */
-        .bubble-text {
-            display: inline-block;
-            white-space: nowrap;
-        }
-
-        .bubble-char {
-            display: inline-block;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            position: relative;
-            font-weight: 900;
-            font-size: 119%;
-            -webkit-text-stroke: 1px rgba(0,0,0,0.3);
-        }
-
-        /* Different colors for each character */
-        .bubble-char:nth-child(1) { color: #ff6b6b; text-shadow: 0 0 3px rgba(255, 107, 107, 0.5), 0 2px 2px rgba(0,0,0,0.2); }
-        .bubble-char:nth-child(2) { color: #ffa94d; text-shadow: 0 0 3px rgba(255, 169, 77, 0.5), 0 2px 2px rgba(0,0,0,0.2); }
-        .bubble-char:nth-child(3) { color: #ffd43b; text-shadow: 0 0 3px rgba(255, 212, 59, 0.5), 0 2px 2px rgba(0,0,0,0.2); }
-        .bubble-char:nth-child(4) { color: #69db7c; text-shadow: 0 0 3px rgba(105, 219, 124, 0.5), 0 2px 2px rgba(0,0,0,0.2); }
-        .bubble-char:nth-child(5) { color: transparent; }
-        .bubble-char:nth-child(6) { color: #4dabf7; text-shadow: 0 0 3px rgba(77, 171, 247, 0.5), 0 2px 2px rgba(0,0,0,0.2); }
-        .bubble-char:nth-child(7) { color: #9775fa; text-shadow: 0 0 3px rgba(151, 117, 250, 0.5), 0 2px 2px rgba(0,0,0,0.2); }
-        .bubble-char:nth-child(8) { color: #da77f2; text-shadow: 0 0 3px rgba(218, 119, 242, 0.5), 0 2px 2px rgba(0,0,0,0.2); }
-        .bubble-char:nth-child(9) { color: #f783ac; text-shadow: 0 0 3px rgba(247, 131, 172, 0.5), 0 2px 2px rgba(0,0,0,0.2); }
-        .bubble-char:nth-child(10) { color: #ff6b6b; text-shadow: 0 0 3px rgba(255, 107, 107, 0.5), 0 2px 2px rgba(0,0,0,0.2); }
-        .bubble-char:nth-child(11) { color: #ffa94d; text-shadow: 0 0 3px rgba(255, 169, 77, 0.5), 0 2px 2px rgba(0,0,0,0.2); }
-        .bubble-char:nth-child(12) { color: #ffd43b; text-shadow: 0 0 3px rgba(255, 212, 59, 0.5), 0 2px 2px rgba(0,0,0,0.2); }
-        .bubble-char:nth-child(13) { color: #69db7c; text-shadow: 0 0 3px rgba(105, 219, 124, 0.5), 0 2px 2px rgba(0,0,0,0.2); }
-        .bubble-char:nth-child(14) { color: #4dabf7; text-shadow: 0 0 3px rgba(77, 171, 247, 0.5), 0 2px 2px rgba(0,0,0,0.2); }
-        .bubble-char:nth-child(15) { color: #9775fa; text-shadow: 0 0 3px rgba(151, 117, 250, 0.5), 0 2px 2px rgba(0,0,0,0.2); }
-
-        .bubble-char.space {
-            width: 0.4em;
-        }
-
-        .bubble-char:hover {
-            transform: scale(1.8);
-            animation: bubbleWobble 0.3s ease;
-        }
-
-        .bubble-char:nth-child(1):hover { text-shadow: 0 0 8px rgba(255, 107, 107, 0.8); }
-        .bubble-char:nth-child(2):hover { text-shadow: 0 0 8px rgba(255, 169, 77, 0.8); }
-        .bubble-char:nth-child(3):hover { text-shadow: 0 0 8px rgba(255, 212, 59, 0.8); }
-        .bubble-char:nth-child(4):hover { text-shadow: 0 0 8px rgba(105, 219, 124, 0.8); }
-        .bubble-char:nth-child(6):hover { text-shadow: 0 0 8px rgba(77, 171, 247, 0.8); }
-        .bubble-char:nth-child(7):hover { text-shadow: 0 0 8px rgba(151, 117, 250, 0.8); }
-        .bubble-char:nth-child(8):hover { text-shadow: 0 0 8px rgba(218, 119, 242, 0.8); }
-        .bubble-char:nth-child(9):hover { text-shadow: 0 0 8px rgba(247, 131, 172, 0.8); }
-        .bubble-char:nth-child(10):hover { text-shadow: 0 0 8px rgba(255, 107, 107, 0.8); }
-        .bubble-char:nth-child(11):hover { text-shadow: 0 0 8px rgba(255, 169, 77, 0.8); }
-        .bubble-char:nth-child(12):hover { text-shadow: 0 0 8px rgba(255, 212, 59, 0.8); }
-        .bubble-char:nth-child(13):hover { text-shadow: 0 0 8px rgba(105, 219, 124, 0.8); }
-        .bubble-char:nth-child(14):hover { text-shadow: 0 0 8px rgba(77, 171, 247, 0.8); }
-        .bubble-char:nth-child(15):hover { text-shadow: 0 0 8px rgba(151, 117, 250, 0.8); }
-
-        .bubble-char.popped {
-            animation: charPop 0.5s ease-out forwards;
-        }
-
-        .bubble-char.space {
-            background: none;
-            -webkit-text-fill-color: transparent;
-        }
-
-        @keyframes bubbleWobble {
-            0%, 100% { transform: scale(1.8) rotate(0deg); }
-            25% { transform: scale(2) rotate(-5deg); }
-            75% { transform: scale(2) rotate(5deg); }
-        }
-
-        @keyframes charPop {
-            0% {
-                transform: scale(1);
-                opacity: 1;
-            }
-            30% {
-                transform: scale(2.5);
-                opacity: 1;
-            }
-            100% {
-                transform: scale(0);
-                opacity: 0;
-            }
-        }
-
-        @keyframes charReturn {
-            0% {
-                transform: scale(0);
-                opacity: 0;
-            }
-            60% {
-                transform: scale(1.5);
-                opacity: 1;
-            }
-            100% {
-                transform: scale(1);
-                opacity: 1;
-            }
-        }
-
-        .bubble-char.returning {
-            animation: charReturn 0.4s ease-out forwards;
-        }
-
-        /* Pop particles */
-        .pop-particle {
-            position: absolute;
-            width: 8px;
-            height: 8px;
-            border-radius: 50%;
-            background: rgba(0, 255, 255, 0.8);
-            pointer-events: none;
-            animation: particleFly 0.5s ease-out forwards;
-        }
-
-        @keyframes particleFly {
-            0% {
-                transform: translate(0, 0) scale(1);
-                opacity: 1;
-            }
-            100% {
-                transform: translate(var(--tx), var(--ty)) scale(0);
-                opacity: 0;
-            }
-        }
-    </style>
-
-    <script>
-        // Bubble character pop effect
-        (function() {
-            const chars = document.querySelectorAll('.bubble-char:not(.space)');
-            const colors = [
-                '#ff6b6b', '#ffa94d', '#ffd43b', '#69db7c', null,
-                '#4dabf7', '#9775fa', '#da77f2', '#f783ac', '#ff6b6b',
-                '#ffa94d', '#ffd43b', '#69db7c', '#4dabf7', '#9775fa'
-            ];
-
-            chars.forEach((char, index) => {
-                char.addEventListener('click', function() {
-                    if (this.classList.contains('popped')) return;
-
-                    // Get color for this character
-                    const color = colors[index] || '#00ffff';
-
-                    // Create pop particles
-                    const rect = this.getBoundingClientRect();
-                    for (let i = 0; i < 12; i++) {
-                        const particle = document.createElement('div');
-                        particle.className = 'pop-particle';
-                        const angle = (i / 12) * Math.PI * 2;
-                        const distance = 50 + Math.random() * 30;
-                        particle.style.cssText = `
-                            left: ${rect.left + rect.width/2}px;
-                            top: ${rect.top + rect.height/2}px;
-                            position: fixed;
-                            background: ${color};
-                            box-shadow: 0 0 10px ${color};
-                            --tx: ${Math.cos(angle) * distance}px;
-                            --ty: ${Math.sin(angle) * distance}px;
-                        `;
-                        document.body.appendChild(particle);
-                        setTimeout(() => particle.remove(), 500);
-                    }
-
-                    // Pop the character
-                    this.classList.add('popped');
-
-                    // Return after delay
-                    setTimeout(() => {
-                        this.classList.remove('popped');
-                        this.classList.add('returning');
-                        setTimeout(() => this.classList.remove('returning'), 400);
-                    }, 1000);
-                });
-            });
-        })();
-    </script>
-
-    <script src="futuristic-bg.js"></script>
-    <script src="script.js"></script>
-    <script src="portfolio.js"></script>
+    <div class="status">
+      <span class="status-dot" aria-hidden="true"></span>
+      Launch sequence in progress
+    </div>
+  </main>
 </body>
 </html>
